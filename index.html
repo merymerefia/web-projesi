@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ürün Takip Sistemi</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #FFE4E1; /* Açık Pudra Pembesi */
+        }
+        .header {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .logout-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .logout-button:hover {
+            background-color: darkred;
+        }
+        .container {
+            padding: 20px;
+            text-align: center;
+        }
+        .category {
+            background-color: white;
+            padding: 20px;
+            margin: 15px;
+            border-radius: 10px;
+            display: inline-block;
+            width: 22%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .category button {
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .category button:hover {
+            background-color: #FFC107;
+        }
+        .search-box {
+            margin: 20px 0;
+        }
+        .search-box input {
+            padding: 10px;
+            font-size: 16px;
+            width: 60%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        .product-info {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .transaction {
+            background-color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .back-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+        #login-page {
+            display: block;
+        }
+        #main-page, #cashier-page {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Giriş Sayfası -->
+    <div id="login-page" class="container">
+        <h1>Ürün Takip Sistemi</h1>
+        <p>Giriş yapmak için kullanıcı adı ve şifre girin.</p>
+        <input type="text" id="username" placeholder="Kullanıcı Adı" />
+        <input type="password" id="password" placeholder="Şifre" />
+        <button onclick="login()">Giriş Yap</button>
+    </div>
+
+    <!-- Ana Sayfa -->
+    <div id="main-page" class="container">
+        <div class="header">
+            <div>Ürün Takip Sistemi</div>
+            <button class="logout-button" onclick="logout()">Çıkış</button>
+        </div>
+        <div class="category">
+            <h3>Aksesuar</h3>
+            <p>Son Güncelleme: 01/03/2025</p>
+            <button onclick="openCashierPage()">Kasa</button>
+        </div>
+        <div class="category">
+            <h3>Pantolon</h3>
+            <p>Son Güncelleme: 01/03/2025</p>
+            <button onclick="openCashierPage()">Kasa</button>
+        </div>
+        <div class="category">
+            <h3>Dekorasyon</h3>
+            <p>Son Güncelleme: 01/03/2025</p>
+            <button onclick="openCashierPage()">Kasa</button>
+        </div>
+        <div class="category">
+            <h3>Dış Giyim</h3>
+            <p>Son Güncelleme: 01/03/2025</p>
+            <button onclick="openCashierPage()">Kasa</button>
+        </div>
+    </div>
+
+    <!-- Kasa Sayfası -->
+    <div id="cashier-page" class="container">
+        <div class="header">
+            <div>Ürün Takip Sistemi - Kasa</div>
+            <button class="logout-button" onclick="logout()">Çıkış</button>
+        </div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Ürün adı girin..." oninput="searchProduct()">
+        </div>
+        <div id="product-info" class="product-info"></div>
+        <button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
+    </div>
+
+    <script>
+        const productData = {
+            "Saat": [
+                { time: "10:00", action: "Satış" },
+                { time: "12:30", action: "İade" },
+                { time: "15:45", action: "Satış" }
+            ],
+            "Bileklik": [
+                { time: "09:00", action: "Satış" },
+                { time: "11:15", action: "İade" }
+            ],
+            "Kot Pantolon": [
+                { time: "13:00", action: "Satış" },
+                { time: "14:00", action: "İade" }
+            ]
+        };
+
+        // Giriş Yapma Fonksiyonu
+        function login() {
+            // Giriş bilgileri boş olsa da, doğrudan geçiş yapılacak
+            document.getElementById("login-page").style.display = "none";
+            document.getElementById("main-page").style.display = "block";
+        }
+
+        // Kasa sayfasına yönlendirme
+        function openCashierPage() {
+            document.getElementById("main-page").style.display = "none";
+            document.getElementById("cashier-page").style.display = "block";
+        }
+
+        // Ürün Arama
+        function searchProduct() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const productInfo = document.getElementById("product-info");
+            
+            for (const product in productData) {
+                if (product.toLowerCase().includes(query)) {
+                    let transactions = "";
+                    productData[product].forEach(trans => {
+                        transactions += `<div class="transaction">${product} - ${trans.time} - ${trans.action}</div>`;
+                    });
+                    productInfo.innerHTML = transactions;
+                    return;
+                }
+            }
+            productInfo.innerHTML = "Ürün bulunamadı.";
+        }
+
+        // Çıkış Yapma
+        function logout() {
+            alert("Çıkış yapılıyor...");
+            document.getElementById("login-page").style.display = "block";
+            document.getElementById("main-page").style.display = "none";
+            document.getElementById("cashier-page").style.display = "none";
+        }
+
+        // Ana sayfaya dönme
+        function goBack() {
+            document.getElementById("cashier-page").style.display = "none";
+            document.getElementById("main-page").style.display = "block";
+        }
+    </script>
+</body>
+</html>
