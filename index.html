@@ -8,8 +8,30 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #FFE4E1; /* Açık Pudra Pembesi */
+            background-color: white;
+            position: relative;
+            overflow-x: hidden;
         }
+
+        .background-images {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 200px);
+            grid-template-rows: repeat(auto-fill, 200px);
+        }
+
+        .bg-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            opacity: 0.2;
+        }
+
         .header {
             background-color: white;
             color: black;
@@ -20,6 +42,7 @@
             padding: 15px 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        
         .logout-button {
             background-color: red;
             color: white;
@@ -29,13 +52,24 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        
         .logout-button:hover {
             background-color: darkred;
         }
+        
         .container {
             padding: 20px;
             text-align: center;
         }
+        
+        #main-page {
+            background-color: #FFE4E1;
+        }
+        
+        #cashier-page {
+            background-color: #FFE4E1;
+        }
+        
         .category {
             background-color: white;
             padding: 20px;
@@ -45,6 +79,7 @@
             width: 22%;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+        
         .category button {
             background-color: #FFD700;
             color: black;
@@ -55,12 +90,15 @@
             border-radius: 5px;
             margin-top: 10px;
         }
+        
         .category button:hover {
             background-color: #FFC107;
         }
+        
         .search-box {
             margin: 20px 0;
         }
+        
         .search-box input {
             padding: 10px;
             font-size: 16px;
@@ -68,10 +106,12 @@
             border-radius: 5px;
             border: 1px solid #ccc;
         }
+        
         .product-info {
             margin-top: 20px;
             font-size: 18px;
         }
+        
         .transaction {
             background-color: white;
             padding: 10px;
@@ -79,6 +119,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+        
         .back-button {
             background-color: #007BFF;
             color: white;
@@ -89,25 +130,136 @@
             border-radius: 5px;
             margin-top: 20px;
         }
+        
         .back-button:hover {
             background-color: #0056b3;
         }
+        
         #login-page {
-            display: block;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
-        #main-page, #cashier-page {
+        
+        .login-form {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        
+        .login-form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .login-form button:hover {
+            background-color: #0056b3;
+        }
+        
+        #main-page, #cashier-page, #product-detail-page {
             display: none;
+        }
+        
+        /* Ürün detay sayfası için stiller */
+        #product-detail-page {
+            background-color: #FFE4E1;
+            padding: 20px;
+        }
+        
+        .product-detail-card {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .product-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .product-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+        
+        .stat-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .monthly-transactions {
+            margin-top: 30px;
+        }
+        
+        .monthly-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .transaction-list {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            background-color: #f8f9fa;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <!-- Giriş Sayfası için Arka plan resimleri -->
+    <div class="background-images" id="backgroundImages"></div>
+
     <!-- Giriş Sayfası -->
     <div id="login-page" class="container">
-        <h1>Ürün Takip Sistemi</h1>
-        <p>Giriş yapmak için kullanıcı adı ve şifre girin.</p>
-        <input type="text" id="username" placeholder="Kullanıcı Adı" />
-        <input type="password" id="password" placeholder="Şifre" />
-        <button onclick="login()">Giriş Yap</button>
+        <div class="login-form">
+            <h1>Ürün Takip Sistemi</h1>
+            <p>Giriş yapmak için kullanıcı adı ve şifre girin.</p>
+            <input type="text" id="username" placeholder="Kullanıcı Adı" />
+            <input type="password" id="password" placeholder="Şifre" />
+            <button onclick="login()">Giriş Yap</button>
+        </div>
     </div>
 
     <!-- Ana Sayfa -->
@@ -119,29 +271,39 @@
         <div class="category">
             <h3>Aksesuar</h3>
             <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage()">Kasa</button>
+            <button onclick="openCashierPage('Aksesuar')">Kasa</button>
         </div>
         <div class="category">
-            <h3>Pantolon</h3>
+            <h3>Alt Giyim</h3>
             <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage()">Kasa</button>
+            <button onclick="openCashierPage('Alt Giyim')">Kasa</button>
+        </div>
+        <div class="category">
+            <h3>Üst Giyim</h3>
+            <p>Son Güncelleme: 01/03/2025</p>
+            <button onclick="openCashierPage('Üst Giyim')">Kasa</button>
+        </div>
+        <div class="category">
+            <h3>Ayakkabı</h3>
+            <p>Son Güncelleme: 01/03/2025</p>
+            <button onclick="openCashierPage('Ayakkabı')">Kasa</button>
         </div>
         <div class="category">
             <h3>Dekorasyon</h3>
             <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage()">Kasa</button>
+            <button onclick="openCashierPage('Dekorasyon')">Kasa</button>
         </div>
         <div class="category">
             <h3>Dış Giyim</h3>
             <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage()">Kasa</button>
+            <button onclick="openCashierPage('Dış Giyim')">Kasa</button>
         </div>
     </div>
 
     <!-- Kasa Sayfası -->
     <div id="cashier-page" class="container">
         <div class="header">
-            <div>Ürün Takip Sistemi - Kasa</div>
+            <div>Ürün Takip Sistemi - <span id="current-category">Kasa</span></div>
             <button class="logout-button" onclick="logout()">Çıkış</button>
         </div>
         <div class="search-box">
@@ -151,34 +313,377 @@
         <button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
     </div>
 
+    <!-- Ürün Detay Sayfası -->
+    <div id="product-detail-page" class="container">
+        <div class="header">
+            <div>Ürün Takip Sistemi - Ürün Detayı</div>
+            <button class="logout-button" onclick="logout()">Çıkış</button>
+        </div>
+        
+        <div class="product-detail-card">
+            <div class="product-title" id="detail-product-title">Ürün Adı</div>
+            
+            <div class="product-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Stok Durumu:</div>
+                    <div id="detail-stock">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Son Güncelleme:</div>
+                    <div id="detail-date">01/03/2025</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Toplam Satış:</div>
+                    <div id="detail-sales">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Toplam İade:</div>
+                    <div id="detail-returns">0</div>
+                </div>
+            </div>
+            
+            <div class="monthly-transactions">
+                <div class="monthly-title">Son 1 Aylık İşlemler</div>
+                <div class="transaction-list" id="detail-transactions">
+                    <!-- Burada işlemler listelenecek -->
+                </div>
+            </div>
+            
+            <div class="buttons">
+                <button class="back-button" onclick="backToCashier()">Kasa Sayfasına Dön</button>
+                <button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const productData = {
-            "Saat": [
-                { time: "10:00", action: "Satış" },
-                { time: "12:30", action: "İade" },
-                { time: "15:45", action: "Satış" }
-            ],
-            "Bileklik": [
-                { time: "09:00", action: "Satış" },
-                { time: "11:15", action: "İade" }
-            ],
-            "Kot Pantolon": [
-                { time: "13:00", action: "Satış" },
-                { time: "14:00", action: "İade" }
-            ]
+        // Kategori bazlı ürün verileri
+        const categoryProducts = {
+            "Aksesuar": ["Takı", "Toka", "Gözlük", "Kemer"],
+            "Alt Giyim": ["Etek", "Jean", "Kumaş Pantolon"],
+            "Üst Giyim": ["Gömlek", "Kazak", "T-shirt", "Hırka"],
+            "Ayakkabı": ["Bot-Çizme", "Topuklu Ayakkabı", "Babet", "Spor Ayakkabı"],
+            "Dekorasyon": ["Vazo", "Çerçeve"],
+            "Dış Giyim": ["Şişme Yelek", "Yağmurluk", "Kaban"]
+        };
+        
+        // Ürün detay verileri - normalde bir veritabanından gelecek
+        const productDetails = {
+            // Aksesuar ürünleri
+            "Takı": {
+                stock: 45,
+                lastUpdate: "12/03/2025",
+                totalSales: 28,
+                totalReturns: 3,
+                monthlyTransactions: [
+                    { date: "15/02/2025", type: "Satış", amount: 2 },
+                    { date: "22/02/2025", type: "Satış", amount: 3 },
+                    { date: "01/03/2025", type: "İade", amount: 1 },
+                    { date: "10/03/2025", type: "Satış", amount: 4 }
+                ]
+            },
+            "Toka": {
+                stock: 60,
+                lastUpdate: "08/03/2025",
+                totalSales: 32,
+                totalReturns: 2,
+                monthlyTransactions: [
+                    { date: "20/02/2025", type: "Satış", amount: 5 },
+                    { date: "28/02/2025", type: "İade", amount: 1 },
+                    { date: "05/03/2025", type: "Satış", amount: 3 }
+                ]
+            },
+            "Gözlük": {
+                stock: 25,
+                lastUpdate: "15/03/2025",
+                totalSales: 18,
+                totalReturns: 4,
+                monthlyTransactions: [
+                    { date: "18/02/2025", type: "Satış", amount: 2 },
+                    { date: "25/02/2025", type: "İade", amount: 1 },
+                    { date: "03/03/2025", type: "Satış", amount: 3 },
+                    { date: "12/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Kemer": {
+                stock: 35,
+                lastUpdate: "10/03/2025",
+                totalSales: 22,
+                totalReturns: 1,
+                monthlyTransactions: [
+                    { date: "16/02/2025", type: "Satış", amount: 4 },
+                    { date: "28/02/2025", type: "Satış", amount: 2 },
+                    { date: "07/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            
+            // Alt Giyim ürünleri
+            "Etek": {
+                stock: 40,
+                lastUpdate: "12/03/2025",
+                totalSales: 25,
+                totalReturns: 5,
+                monthlyTransactions: [
+                    { date: "17/02/2025", type: "Satış", amount: 3 },
+                    { date: "24/02/2025", type: "İade", amount: 2 },
+                    { date: "05/03/2025", type: "Satış", amount: 4 },
+                    { date: "10/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Jean": {
+                stock: 65,
+                lastUpdate: "15/03/2025",
+                totalSales: 45,
+                totalReturns: 8,
+                monthlyTransactions: [
+                    { date: "18/02/2025", type: "Satış", amount: 6 },
+                    { date: "26/02/2025", type: "İade", amount: 2 },
+                    { date: "04/03/2025", type: "Satış", amount: 5 },
+                    { date: "11/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Kumaş Pantolon": {
+                stock: 30,
+                lastUpdate: "08/03/2025",
+                totalSales: 20,
+                totalReturns: 3,
+                monthlyTransactions: [
+                    { date: "19/02/2025", type: "Satış", amount: 3 },
+                    { date: "27/02/2025", type: "İade", amount: 1 },
+                    { date: "05/03/2025", type: "Satış", amount: 2 }
+                ]
+            },
+            
+            // Üst Giyim ürünleri
+            "Gömlek": {
+                stock: 55,
+                lastUpdate: "14/03/2025",
+                totalSales: 35,
+                totalReturns: 4,
+                monthlyTransactions: [
+                    { date: "16/02/2025", type: "Satış", amount: 4 },
+                    { date: "24/02/2025", type: "İade", amount: 1 },
+                    { date: "03/03/2025", type: "Satış", amount: 5 },
+                    { date: "10/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Kazak": {
+                stock: 40,
+                lastUpdate: "10/03/2025",
+                totalSales: 28,
+                totalReturns: 6,
+                monthlyTransactions: [
+                    { date: "17/02/2025", type: "Satış", amount: 3 },
+                    { date: "25/02/2025", type: "İade", amount: 2 },
+                    { date: "02/03/2025", type: "Satış", amount: 4 },
+                    { date: "08/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "T-shirt": {
+                stock: 85,
+                lastUpdate: "15/03/2025",
+                totalSales: 60,
+                totalReturns: 8,
+                monthlyTransactions: [
+                    { date: "18/02/2025", type: "Satış", amount: 7 },
+                    { date: "26/02/2025", type: "İade", amount: 2 },
+                    { date: "04/03/2025", type: "Satış", amount: 8 },
+                    { date: "12/03/2025", type: "İade", amount: 3 }
+                ]
+            },
+            "Hırka": {
+                stock: 25,
+                lastUpdate: "06/03/2025",
+                totalSales: 15,
+                totalReturns: 2,
+                monthlyTransactions: [
+                    { date: "16/02/2025", type: "Satış", amount: 2 },
+                    { date: "24/02/2025", type: "İade", amount: 1 },
+                    { date: "02/03/2025", type: "Satış", amount: 3 }
+                ]
+            },
+            
+            // Ayakkabı ürünleri
+            "Bot-Çizme": {
+                stock: 30,
+                lastUpdate: "12/03/2025",
+                totalSales: 22,
+                totalReturns: 5,
+                monthlyTransactions: [
+                    { date: "15/02/2025", type: "Satış", amount: 3 },
+                    { date: "23/02/2025", type: "İade", amount: 2 },
+                    { date: "04/03/2025", type: "Satış", amount: 4 },
+                    { date: "10/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Topuklu Ayakkabı": {
+                stock: 35,
+                lastUpdate: "14/03/2025",
+                totalSales: 25,
+                totalReturns: 6,
+                monthlyTransactions: [
+                    { date: "17/02/2025", type: "Satış", amount: 4 },
+                    { date: "25/02/2025", type: "İade", amount: 2 },
+                    { date: "05/03/2025", type: "Satış", amount: 3 },
+                    { date: "12/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Babet": {
+                stock: 40,
+                lastUpdate: "08/03/2025",
+                totalSales: 28,
+                totalReturns: 3,
+                monthlyTransactions: [
+                    { date: "19/02/2025", type: "Satış", amount: 5 },
+                    { date: "26/02/2025", type: "İade", amount: 1 },
+                    { date: "03/03/2025", type: "Satış", amount: 4 }
+                ]
+            },
+            "Spor Ayakkabı": {
+                stock: 50,
+                lastUpdate: "15/03/2025",
+                totalSales: 38,
+                totalReturns: 4,
+                monthlyTransactions: [
+                    { date: "18/02/2025", type: "Satış", amount: 6 },
+                    { date: "27/02/2025", type: "İade", amount: 1 },
+                    { date: "06/03/2025", type: "Satış", amount: 5 },
+                    { date: "13/03/2025", type: "İade", amount: 2 }
+                ]
+            },
+            
+            // Dekorasyon ürünleri
+            "Vazo": {
+                stock: 25,
+                lastUpdate: "09/03/2025",
+                totalSales: 18,
+                totalReturns: 2,
+                monthlyTransactions: [
+                    { date: "16/02/2025", type: "Satış", amount: 3 },
+                    { date: "24/02/2025", type: "İade", amount: 1 },
+                    { date: "05/03/2025", type: "Satış", amount: 2 }
+                ]
+            },
+            "Çerçeve": {
+                stock: 30,
+                lastUpdate: "13/03/2025",
+                totalSales: 22,
+                totalReturns: 1,
+                monthlyTransactions: [
+                    { date: "18/02/2025", type: "Satış", amount: 4 },
+                    { date: "02/03/2025", type: "İade", amount: 1 },
+                    { date: "10/03/2025", type: "Satış", amount: 3 }
+                ]
+            },
+            
+            // Dış Giyim ürünleri
+            "Şişme Yelek": {
+                stock: 20,
+                lastUpdate: "10/03/2025",
+                totalSales: 15,
+                totalReturns: 3,
+                monthlyTransactions: [
+                    { date: "17/02/2025", type: "Satış", amount: 2 },
+                    { date: "25/02/2025", type: "İade", amount: 1 },
+                    { date: "04/03/2025", type: "Satış", amount: 3 },
+                    { date: "08/03/2025", type: "İade", amount: 1 }
+                ]
+            },
+            "Yağmurluk": {
+                stock: 25,
+                lastUpdate: "12/03/2025",
+                totalSales: 18,
+                totalReturns: 2,
+                monthlyTransactions: [
+                    { date: "19/02/2025", type: "Satış", amount: 3 },
+                    { date: "28/02/2025", type: "İade", amount: 1 },
+                    { date: "07/03/2025", type: "Satış", amount: 4 }
+                ]
+            },
+            "Kaban": {
+                stock: 15,
+                lastUpdate: "05/03/2025",
+                totalSales: 10,
+                totalReturns: 1,
+                monthlyTransactions: [
+                    { date: "16/02/2025", type: "Satış", amount: 2 },
+                    { date: "22/02/2025", type: "İade", amount: 1 },
+                    { date: "01/03/2025", type: "Satış", amount: 1 }
+                ]
+            }
         };
 
-        // Giriş Yapma Fonksiyonu
-        function login() {
+        // Sayfa yüklendiğinde çalışacak fonksiyon
+        window.onload = function() {
+            setupBackgroundImages();
+        };
+        
+        // Global değişkenler
+        let currentCategory = "";
+        
+        // Arka plana rastgele resimleri yerleştirir
+        function setupBackgroundImages() {
+            const container = document.getElementById('backgroundImages');
+            
+            // Göreceli dosya yolları - HTML ile aynı klasörde
+            const imagePaths = [
+                "foto1.jpeg",
+                "foto2.jpeg",
+                "foto3.jpeg",
+                "foto4.jpeg"
+            ];
+            
+            const rows = Math.ceil(window.innerHeight / 200) + 1;
+            const cols = Math.ceil(window.innerWidth / 200) + 1;
+            const totalCells = rows * cols;
+            
+            for (let i = 0; i < totalCells; i++) {
+                const randomIndex = Math.floor(Math.random() * imagePaths.length);
+                const img = document.createElement('img');
+                
+                // Göreceli dosya yolunu kullanıyoruz
+                img.src = imagePaths[randomIndex];
+                img.className = 'bg-image';
+                img.alt = "Arka plan resmi " + (randomIndex + 1);
+                
+                // Resim yüklenemediğinde hata işleme
+                img.onerror = function() {
+                    console.error("Resim yüklenemedi: " + imagePaths[randomIndex]);
+                    this.src = ""; // Kırık resim ikonunu gösterme
+                };
+                
+                container.appendChild(img);
+            }
+        }
+// Giriş Yapma Fonksiyonu
+function login() {
             // Giriş bilgileri boş olsa da, doğrudan geçiş yapılacak
             document.getElementById("login-page").style.display = "none";
             document.getElementById("main-page").style.display = "block";
+            
+            // Arka plan resimlerini gizle - sadece giriş sayfasında gösterilecek
+            document.getElementById("backgroundImages").style.display = "none";
         }
 
         // Kasa sayfasına yönlendirme
-        function openCashierPage() {
+        function openCashierPage(category) {
+            currentCategory = category;
             document.getElementById("main-page").style.display = "none";
             document.getElementById("cashier-page").style.display = "block";
+            document.getElementById("current-category").textContent = category;
+            
+            // Arama kutusunu temizle
+            document.getElementById("searchInput").value = "";
+            document.getElementById("product-info").innerHTML = "";
+            
+            // Kategori ürünlerini listele
+            let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
+            
+            categoryProducts[category].forEach(product => {
+                productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+            });
+            
+            document.getElementById("product-info").innerHTML = productHtml;
         }
 
         // Ürün Arama
@@ -186,32 +691,89 @@
             const query = document.getElementById("searchInput").value.toLowerCase();
             const productInfo = document.getElementById("product-info");
             
-            for (const product in productData) {
-                if (product.toLowerCase().includes(query)) {
-                    let transactions = "";
-                    productData[product].forEach(trans => {
-                        transactions += `<div class="transaction">${product} - ${trans.time} - ${trans.action}</div>`;
-                    });
-                    productInfo.innerHTML = transactions;
-                    return;
-                }
+            if (query.length === 0) {
+                // Arama boşsa kategorideki tüm ürünleri göster
+                let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
+                
+                categoryProducts[currentCategory].forEach(product => {
+                    productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+                });
+                
+                productInfo.innerHTML = productHtml;
+                return;
             }
-            productInfo.innerHTML = "Ürün bulunamadı.";
+            
+            // İlgili kategorideki ürünleri ara
+            let results = categoryProducts[currentCategory].filter(product => 
+                product.toLowerCase().includes(query)
+            );
+            
+            if (results.length > 0) {
+                let productHtml = "<div style='margin-bottom: 20px;'><strong>Arama Sonuçları:</strong></div>";
+                
+                results.forEach(product => {
+                    productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+                });
+                
+                productInfo.innerHTML = productHtml;
+            } else {
+                productInfo.innerHTML = "Arama kriterine uygun ürün bulunamadı.";
+            }
         }
 
-        // Çıkış Yapma
-        function logout() {
-            alert("Çıkış yapılıyor...");
-            document.getElementById("login-page").style.display = "block";
-            document.getElementById("main-page").style.display = "none";
-            document.getElementById("cashier-page").style.display = "none";
-        }
+        // Ürün detay sayfasını aç
+function openProductDetail(productName) {
+    document.getElementById("cashier-page").style.display = "none";
+    document.getElementById("product-detail-page").style.display = "block";
+    
+    // Ürün bilgilerini doldur
+    const productData = productDetails[productName];
+    
+    document.getElementById("detail-product-title").textContent = productName;
+    document.getElementById("detail-stock").textContent = productData.stock;
+    document.getElementById("detail-date").textContent = productData.lastUpdate;
+    document.getElementById("detail-sales").textContent = productData.totalSales;
+    document.getElementById("detail-returns").textContent = productData.totalReturns;
+    
+    // Son 1 aylık işlemleri doldur
+    let transactionHtml = "";
+    
+    if (productData.monthlyTransactions.length > 0) {
+        productData.monthlyTransactions.forEach(transaction => {
+            transactionHtml += `<div class="transaction">
+                <strong>${transaction.date}</strong> - ${transaction.type}: ${transaction.amount} adet
+            </div>`;
+        });
+    } else {
+        transactionHtml = "<p>Son 1 ayda işlem yapılmamış.</p>";
+    }
+    
+    document.getElementById("detail-transactions").innerHTML = transactionHtml;
+}
 
-        // Ana sayfaya dönme
-        function goBack() {
-            document.getElementById("cashier-page").style.display = "none";
-            document.getElementById("main-page").style.display = "block";
-        }
-    </script>
-</body>
-</html>
+// Kasa sayfasına dön
+function backToCashier() {
+    document.getElementById("product-detail-page").style.display = "none";
+    document.getElementById("cashier-page").style.display = "block";
+}
+
+// Çıkış Yapma
+function logout() {
+    alert("Çıkış yapılıyor...");
+    document.getElementById("login-page").style.display = "flex"; // flex yaptık ki ortada dursun
+    document.getElementById("main-page").style.display = "none";
+    document.getElementById("cashier-page").style.display = "none";
+    document.getElementById("product-detail-page").style.display = "none";
+    
+    // Arka plan resimlerini göster - giriş sayfasına döndük
+    document.getElementById("backgroundImages").style.display = "grid";
+}
+
+// Ana sayfaya dönme
+function goBack() {
+    document.getElementById("cashier-page").style.display = "none";
+    document.getElementById("product-detail-page").style.display = "none";
+    document.getElementById("main-page").style.display = "block";
+}
+</script>
+        
