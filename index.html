@@ -42,7 +42,19 @@
             padding: 15px 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+        .form-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.form-button:hover {
+    background-color: #218838;
+}
         .logout-button {
             background-color: red;
             color: white;
@@ -179,7 +191,12 @@
         
         #main-page, #cashier-page, #product-detail-page {
             display: none;
-        }
+        }#form-page {
+    display: none;
+    background-color: #f8f9fa;
+    padding: 20px;
+    text-align: center;
+}
         
         /* Ürün detay sayfası için stiller */
         #product-detail-page {
@@ -313,6 +330,41 @@
     <div class="background-images" id="backgroundImages"></div>
 
     <!-- Giriş Sayfası -->
+    <div id="form-page" class="container" style="display: none;">
+        <div class="form-container">
+            <h2>Kullanıcı Bilgileri Formu</h2>
+            <input type="email" id="form-email" placeholder="E-posta Adresi" required>
+            <input type="text" id="form-name" placeholder="Ad" required>
+            <input type="text" id="form-surname" placeholder="Soyad" required>
+            <select id="form-gender" required>
+                <option value="" disabled selected>Cinsiyet</option>
+                <option value="Erkek">Erkek</option>
+                <option value="Kadın">Kadın</option>
+                <option value="Diğer">Diğer</option>
+            </select>
+            <input type="date" id="form-birthdate" required>
+            <select id="form-education" required>
+                <option value="" disabled selected>Öğrenim Durumu</option>
+                <option value="Lisans">Lisans</option>
+                <option value="Önlisans">Önlisans</option>
+                <option value="Ortaöğretim">Ortaöğretim</option>
+            </select><div id="data-page" class="container" style="display: none;">
+    <h2>Kayıtlı Kullanıcılar</h2>
+    <div id="data-entries" class="data-page">
+        <!-- Kayıtlar burada gösterilecek -->
+    </div>
+    <button onclick="goBack()">Ana Sayfaya Dön</button>
+</div><div id="data-page" class="container" style="display: none;">
+    <h2>Kayıtlı Kullanıcılar</h2>
+    <div id="data-entries" class="data-page">
+        <!-- Kayıtlar burada gösterilecek -->
+    </div>
+    <button onclick="goBack()">Ana Sayfaya Dön</button>
+</div>
+            <button onclick="submitForm()">Gönder</button>
+            <button onclick="goBack()">Ana Sayfaya Dön</button>
+        </div>
+    </div>
     <div id="login-page" class="container">
         <div class="login-form">
             <h1>Ürün Takip Sistemi</h1>
@@ -327,7 +379,7 @@
     <div id="main-page" class="container">
         <div class="header">
             <div>Ürün Takip Sistemi</div>
-            <button class="logout-button" onclick="logout()">Çıkış</button>
+            <button class="logout-button" onclick="logout()">Çıkış</button><button class="form-button" onclick="showFormPage()">Form</button>
         </div>
         <div class="category">
             <h3>Aksesuar</h3>
@@ -426,6 +478,63 @@
     </div>
 
     <script>
+        const formData = [];
+
+// Form sayfasını göster
+function showFormPage() {
+    document.getElementById("main-page").style.display = "none";
+    document.getElementById("form-page").style.display = "block";
+}
+
+// Formu gönder ve bilgileri kaydet
+function submitForm() {
+    const email = document.getElementById("form-email").value;
+    const name = document.getElementById("form-name").value;
+    const surname = document.getElementById("form-surname").value;
+    const gender = document.getElementById("form-gender").value;
+    const birthdate = document.getElementById("form-birthdate").value;
+    const education = document.getElementById("form-education").value;
+
+    if (!email || !name || !surname || !gender || !birthdate || !education) {
+        alert("Lütfen tüm alanları doldurun.");
+        return;
+    }
+
+    formData.push({ email, name, surname, gender, birthdate, education });
+    alert("Form başarıyla gönderildi!");
+    showDataPage();
+}
+
+// Verilerin görüntülendiği sayfayı göster
+function showDataPage() {
+    document.getElementById("form-page").style.display = "none";
+    document.getElementById("data-page").style.display = "block";
+
+    const dataEntries = document.getElementById("data-entries");
+    dataEntries.innerHTML = "";
+
+    formData.forEach((data, index) => {
+        const entry = document.createElement("div");
+        entry.className = "data-entry";
+        entry.innerHTML = `
+            <strong>Kayıt ${index + 1}</strong><br>
+            E-posta: ${data.email}<br>
+            Ad: ${data.name}<br>
+            Soyad: ${data.surname}<br>
+            Cinsiyet: ${data.gender}<br>
+            Doğum Tarihi: ${data.birthdate}<br>
+            Öğrenim Durumu: ${data.education}
+        `;
+        dataEntries.appendChild(entry);
+    });
+}
+
+// Ana sayfaya dön
+function goBack() {
+    document.getElementById("form-page").style.display = "none";
+    document.getElementById("data-page").style.display = "none";
+    document.getElementById("main-page").style.display = "block";
+}
 // Kamera ile barkod tarama işlevleri
 let html5QrCode;
 let activeScanning = false;
