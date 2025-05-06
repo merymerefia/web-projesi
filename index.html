@@ -328,6 +328,7 @@
 <body>
     <!-- Giriş Sayfası için Arka plan resimleri -->
     <div class="background-images" id="backgroundImages"></div>
+    
 
     <!-- Giriş Sayfası -->
     <div id="form-page" class="container" style="display: none;">
@@ -380,7 +381,7 @@
         <div class="header">
             <div>Ürün Takip Sistemi</div>
             <button class="logout-button" onclick="logout()">Çıkış</button><button class="form-button" onclick="showFormPage()">Form</button>
-        </div>
+            <button class="form-button" onclick="toggleUserData()">Form Bilgileri</button></div>
         <div class="category">
             <h3>Aksesuar</h3>
             <p>Son Güncelleme: 01/03/2025</p>
@@ -412,7 +413,10 @@
             <button onclick="openCashierPage('Dış Giyim')">Kasa</button>
         </div>
     </div>
-
+    <div id="user-data-section" class="container" style="display: none;">
+        <h2>Form Bilgileri</h2>
+        <div id="user-data-list"></div>
+    </div>
     <!-- Kasa Sayfası -->
     <div id="cashier-page" class="container">
         <div class="header">
@@ -478,8 +482,13 @@
     </div>
 
     <script>
-        const formData = [];
-
+        window.onload = function() {
+    setupBackgroundImages();
+    displayUserData(); // Form bilgilerini sayfa yüklendiğinde göster
+};
+        
+// Local Storage'dan form verilerini yükle
+let formData = JSON.parse(localStorage.getItem("formData")) || [];
 // Form sayfasını göster
 function showFormPage() {
     document.getElementById("main-page").style.display = "none";
@@ -501,6 +510,8 @@ function submitForm() {
     }
 
     formData.push({ email, name, surname, gender, birthdate, education });
+    // Local Storage'a form verilerini kaydet
+localStorage.setItem("formData", JSON.stringify(formData));
     alert("Form başarıyla gönderildi!");
     showDataPage();
 }
@@ -640,7 +651,48 @@ function onScanFailure(error) {
             "Dekorasyon": ["Vazo", "Çerçeve"],
             "Dış Giyim": ["Şişme Yelek", "Yağmurluk", "Kaban"]
         };
-        
+
+        function toggleUserData() {
+    const userDataSection = document.getElementById("user-data-section");
+    if (userDataSection.style.display === "none" || userDataSection.style.display === "") {
+        userDataSection.style.display = "block";
+    } else {
+        userDataSection.style.display = "none";
+    }
+}
+        // Form Bilgilerini Listele
+function displayUserData() {
+    const userDataSection = document.getElementById("user-data-section");
+    const userDataList = document.getElementById("user-data-list");
+
+    // Bölümü görünür yap
+    userDataSection.style.display = "block";
+
+    // Listeyi temizle
+    userDataList.innerHTML = "";
+
+    // Form bilgilerini ekle
+    formData.forEach((data, index) => {
+        const entry = document.createElement("div");
+        entry.className = "data-entry";
+        entry.style.marginBottom = "10px";
+        entry.style.padding = "10px";
+        entry.style.border = "1px solid #ccc";
+        entry.style.borderRadius = "5px";
+        entry.style.backgroundColor = "#f8f9fa";
+
+        entry.innerHTML = `
+            <strong>Kayıt ${index + 1}</strong><br>
+            E-posta: ${data.email}<br>
+            Ad: ${data.name}<br>
+            Soyad: ${data.surname}<br>
+            Cinsiyet: ${data.gender}<br>
+            Doğum Tarihi: ${data.birthdate}<br>
+            Öğrenim Durumu: ${data.education}
+        `;
+        userDataList.appendChild(entry);
+    });
+}
         // Ürün detay verileri - normalde bir veritabanından gelecek
         const productDetails = {
             // Aksesuar ürünleri
