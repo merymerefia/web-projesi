@@ -1,1356 +1,1235 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ürün Takip Sistemi</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: white;
-            position: relative;
-            overflow-x: hidden;
-        }
-
-        .background-images {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, 200px);
-            grid-template-rows: repeat(auto-fill, 200px);
-        }
-
-        .bg-image {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            opacity: 0.2;
-        }
-
-        .header {
-            background-color: white;
-            color: black;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .form-button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ürün Takip Sistemi</title>
+<style>
+body {
+margin: 0;
+font-family: Arial, sans-serif;
+background-color: white;
+position: relative;
+overflow-x: hidden;
 }
-
+.background-images {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: -1;
+display: grid;
+grid-template-columns: repeat(auto-fill, 200px);
+grid-template-rows: repeat(auto-fill, 200px);
+}
+.bg-image {
+width: 200px;
+height: 200px;
+object-fit: cover;
+opacity: 0.2;
+}
+.header {
+background-color: white;
+color: black;
+font-weight: bold;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 15px 20px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.form-button {
+background-color: #28a745;
+color: white;
+border: none;
+padding: 10px 15px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 5px;
+}
 .form-button:hover {
-    background-color: #218838;
+background-color: #218838;
 }
-        .logout-button {
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        
-        .logout-button:hover {
-            background-color: darkred;
-        }
-        
-        .container {
-            padding: 20px;
-            text-align: center;
-        }
-        
-        #main-page {
-            background-color: #FFE4E1;
-        }
-        
-        #cashier-page {
-            background-color: #FFE4E1;
-        }
-        
-        .category {
-            background-color: white;
-            padding: 20px;
-            margin: 15px;
-            border-radius: 10px;
-            display: inline-block;
-            width: 22%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .category button {
-            background-color: #FFD700;
-            color: black;
-            border: none;
-            padding: 10px 15px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        
-        .category button:hover {
-            background-color: #FFC107;
-        }
-        
-        .search-box {
-            margin: 20px 0;
-        }
-        
-        .search-box input {
-            padding: 10px;
-            font-size: 16px;
-            width: 60%;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        
-        .product-info {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-        
-        .transaction {
-            background-color: white;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        
-        .back-button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        
-        .back-button:hover {
-            background-color: #0056b3;
-        }
-        
-        #login-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        
-        .login-form {
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            width: 350px;
-            text-align: center;
-            z-index: 10;
-        }
-        
-        .login-form input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #eef;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        
-        .login-form button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 15px;
-        }
-        
-        .login-form button:hover {
-            background-color: #0056b3;
-        }
-        
-        #main-page, #cashier-page, #product-detail-page {
-            display: none;
-        }#form-page {
-    display: none;
-    background-color: #f8f9fa;
-    padding: 20px;
-    text-align: center;
+.logout-button {
+background-color: red;
+color: white;
+border: none;
+padding: 10px 15px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 5px;
 }
-        
-        /* Ürün detay sayfası için stiller */
-        #product-detail-page {
-            background-color: #ef7769;
-            padding: 20px;
-        }
-        
-        .product-detail-card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        
-        .product-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .product-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-item {
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-        }
-        
-        .stat-label {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .monthly-transactions {
-            margin-top: 30px;
-        }
-        
-        .monthly-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .transaction-list {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            background-color: #f8f9fa;
-        }
-        
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        /* Barkod tarayıcı için yeni stiller */
+.logout-button:hover {
+background-color: darkred;
+}
+.container {
+padding: 20px;
+text-align: center;
+}
+#main-page {
+background-color: #FFE4E1;
+}
+#cashier-page {
+background-color: #FFE4E1;
+}
+.category {
+background-color: white;
+padding: 20px;
+margin: 15px;
+border-radius: 10px;
+display: inline-block;
+width: 22%;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.category button {
+background-color: #FFD700;
+color: black;
+border: none;
+padding: 10px 15px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 5px;
+margin-top: 10px;
+}
+.category button:hover {
+background-color: #FFC107;
+}
+.search-box {
+margin: 20px 0;
+}
+.search-box input {
+padding: 10px;
+font-size: 16px;
+width: 60%;
+border-radius: 5px;
+border: 1px solid #ccc;
+}
+.product-info {
+margin-top: 20px;
+font-size: 18px;
+}
+.transaction {
+background-color: white;
+padding: 10px;
+margin-top: 10px;
+border-radius: 5px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.back-button {
+background-color: #007BFF;
+color: white;
+border: none;
+padding: 10px 15px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 5px;
+margin-top: 20px;
+}
+.back-button:hover {
+background-color: #0056b3;
+}
+#login-page {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+}
+.login-form {
+background-color: white;
+padding: 30px;
+border-radius: 10px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+width: 350px;
+text-align: center;
+z-index: 10;
+}
+.login-form input {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #eef;
+border-radius: 5px;
+box-sizing: border-box;
+}
+.login-form button {
+background-color: #007BFF;
+color: white;
+border: none;
+padding: 12px;
+width: 100%;
+font-weight: bold;
+cursor: pointer;
+border-radius: 5px;
+margin-top: 15px;
+}
+.login-form button:hover {
+background-color: #0056b3;
+}
+#main-page, #cashier-page, #product-detail-page {
+display: none;
+}#form-page {
+display: none;
+background-color: #f8f9fa;
+padding: 20px;
+text-align: center;
+}
+/* Ürün detay sayfası için stiller */
+#product-detail-page {
+background-color: #ef7769;
+padding: 20px;
+}
+.product-detail-card {
+background-color: white;
+padding: 20px;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+max-width: 800px;
+margin: 0 auto;
+text-align: left;
+}
+.product-title {
+font-size: 24px;
+font-weight: bold;
+margin-bottom: 20px;
+text-align: center;
+}
+.product-stats {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 15px;
+margin-bottom: 20px;
+}
+.stat-item {
+padding: 10px;
+border-radius: 5px;
+background-color: #f8f9fa;
+}
+.stat-label {
+font-weight: bold;
+margin-bottom: 5px;
+}
+.monthly-transactions {
+margin-top: 30px;
+}
+.monthly-title {
+font-size: 18px;
+font-weight: bold;
+margin-bottom: 10px;
+text-align: center;
+}
+.transaction-list {
+border: 1px solid #ddd;
+border-radius: 5px;
+padding: 10px;
+background-color: #f8f9fa;
+}
+.buttons {
+display: flex;
+justify-content: space-between;
+margin-top: 20px;
+}
+/* Barkod tarayıcı için yeni stiller */
 #scanner-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 1000;
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.9);
+z-index: 1000;
+display: none;
+flex-direction: column;
+align-items: center;
+justify-content: center;
 }
-
 #scanner-container video {
-    max-width: 100%;
-    max-height: 70vh;
-    border: 3px solid white;
-    border-radius: 10px;
+max-width: 100%;
+max-height: 70vh;
+border: 3px solid white;
+border-radius: 10px;
 }
-
 .scanner-controls {
-    margin-top: 20px;
-    display: flex;
-    gap: 10px;
+margin-top: 20px;
+display: flex;
+gap: 10px;
 }
-
 .scanner-button {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    padding: 12px 20px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 5px;
+background-color: #007BFF;
+color: white;
+border: none;
+padding: 12px 20px;
+font-weight: bold;
+cursor: pointer;
+border-radius: 5px;
 }
-
 .cancel-button {
-    background-color: #dc3545;
+background-color: #dc3545;
 }
-
 .scan-result-indicator {
-    padding: 15px;
-    border-radius: 5px;
-    margin-top: 15px;
-    color: white;
-    font-weight: bold;
-    background-color: #28a745;
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    max-width: 80%;
-    text-align: center;
+padding: 15px;
+border-radius: 5px;
+margin-top: 15px;
+color: white;
+font-weight: bold;
+background-color: #28a745;
+display: none;
+position: absolute;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+max-width: 80%;
+text-align: center;
 }
-    </style>
-
-    <!-- ZXing kütüphanesi barkod taramak için -->
+</style>
+<!-- ZXing kütüphanesi barkod taramak için -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
 </head>
 <body>
-    <!-- Giriş Sayfası için Arka plan resimleri -->
-    <div class="background-images" id="backgroundImages"></div>
-    
-
-    <!-- Giriş Sayfası -->
-    <div id="form-page" class="container" style="display: none;">
-        <div class="form-container">
-            <h2>Kullanıcı Bilgileri Formu</h2>
-            <input type="email" id="form-email" placeholder="E-posta Adresi" required>
-            <input type="text" id="form-name" placeholder="Ad" required>
-            <input type="text" id="form-surname" placeholder="Soyad" required>
-            <select id="form-gender" required>
-                <option value="" disabled selected>Cinsiyet</option>
-                <option value="Erkek">Erkek</option>
-                <option value="Kadın">Kadın</option>
-                <option value="Diğer">Diğer</option>
-            </select>
-            <input type="date" id="form-birthdate" required>
-            <select id="form-education" required>
-                <option value="" disabled selected>Öğrenim Durumu</option>
-                <option value="Lisans">Lisans</option>
-                <option value="Önlisans">Önlisans</option>
-                <option value="Ortaöğretim">Ortaöğretim</option>
-            </select><div id="data-page" class="container" style="display: none;">
-    <h2>Kayıtlı Kullanıcılar</h2>
-    <div id="data-entries" class="data-page">
-        <!-- Kayıtlar burada gösterilecek -->
-    </div>
-    <button onclick="goBack()">Ana Sayfaya Dön</button>
+<!-- Giriş Sayfası için Arka plan resimleri -->
+<div class="background-images" id="backgroundImages"></div>
+<!-- Giriş Sayfası -->
+<div id="form-page" class="container" style="display: none;">
+<div class="form-container">
+<h2>Kullanıcı Bilgileri Formu</h2>
+<input type="email" id="form-email" placeholder="E-posta Adresi" required>
+<input type="text" id="form-name" placeholder="Ad" required>
+<input type="text" id="form-surname" placeholder="Soyad" required>
+<select id="form-gender" required>
+<option value="" disabled selected>Cinsiyet</option>
+<option value="Erkek">Erkek</option>
+<option value="Kadın">Kadın</option>
+<option value="Diğer">Diğer</option>
+</select>
+<input type="date" id="form-birthdate" required>
+<select id="form-education" required>
+<option value="" disabled selected>Öğrenim Durumu</option>
+<option value="Lisans">Lisans</option>
+<option value="Önlisans">Önlisans</option>
+<option value="Ortaöğretim">Ortaöğretim</option>
+</select><div id="data-page" class="container" style="display: none;">
+<h2>Kayıtlı Kullanıcılar</h2>
+<div id="data-entries" class="data-page">
+<!-- Kayıtlar burada gösterilecek -->
+</div>
+<button onclick="goBack()">Ana Sayfaya Dön</button>
 </div><div id="data-page" class="container" style="display: none;">
-    <h2>Kayıtlı Kullanıcılar</h2>
-    <div id="data-entries" class="data-page">
-        <!-- Kayıtlar burada gösterilecek -->
-    </div>
-    <button onclick="goBack()">Ana Sayfaya Dön</button>
+<h2>Kayıtlı Kullanıcılar</h2>
+<div id="data-entries" class="data-page">
+<!-- Kayıtlar burada gösterilecek -->
 </div>
-            <button onclick="submitForm()">Gönder</button>
-            <button onclick="goBack()">Ana Sayfaya Dön</button>
-        </div>
-    </div>
-    <div id="login-page" class="container">
-        <div class="login-form">
-            <h1>Ürün Takip Sistemi</h1>
-            <p>Giriş yapmak için kullanıcı adı ve şifre girin.</p>
-            <input type="text" id="username" placeholder="Kullanıcı Adı" />
-            <input type="password" id="password" placeholder="Şifre" />
-            <button onclick="login()">Giriş Yap</button>
-        </div>
-    </div>
-
-    <!-- Ana Sayfa -->
-    <div id="main-page" class="container">
-        <div class="header">
-            <div>Ürün Takip Sistemi</div>
-            <button class="logout-button" onclick="logout()">Çıkış</button><button class="form-button" onclick="showFormPage()">Form</button>
-            <button class="form-button" onclick="toggleUserData()">Form Bilgileri</button></div>
-        <div class="category">
-            <h3>Aksesuar</h3>
-            <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage('Aksesuar')">Kasa</button>
-        </div>
-        <div class="category">
-            <h3>Alt Giyim</h3>
-            <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage('Alt Giyim')">Kasa</button>
-        </div>
-        <div class="category">
-            <h3>Üst Giyim</h3>
-            <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage('Üst Giyim')">Kasa</button>
-        </div>
-        <div class="category">
-            <h3>Ayakkabı</h3>
-            <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage('Ayakkabı')">Kasa</button>
-        </div>
-        <div class="category">
-            <h3>Dekorasyon</h3>
-            <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage('Dekorasyon')">Kasa</button>
-        </div>
-        <div class="category">
-            <h3>Dış Giyim</h3>
-            <p>Son Güncelleme: 01/03/2025</p>
-            <button onclick="openCashierPage('Dış Giyim')">Kasa</button>
-        </div>
-    </div>
-    <div id="user-data-section" class="container" style="display: none;">
-        <h2>Form Bilgileri</h2>
-        <div id="user-data-list"></div>
-    </div>
-    <!-- Kasa Sayfası -->
-    <div id="cashier-page" class="container">
-        <div class="header">
-            <div>Ürün Takip Sistemi - <span id="current-category">Kasa</span></div>
-            <button class="logout-button" onclick="logout()">Çıkış</button>
-        </div>
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Ürün adı girin..." oninput="searchProduct()">
-        </div>
-        <div id="product-info" class="product-info"></div>
-        <button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
-    </div>
-
-    <!-- Ürün Detay Sayfası -->
-    <div id="product-detail-page" class="container">
-        <div class="header">
-            <div>Ürün Takip Sistemi - Ürün Detayı</div>
-            <button class="logout-button" onclick="logout()">Çıkış</button>
-        </div>
-        
-        <div class="product-detail-card">
-            <div class="product-title" id="detail-product-title">Ürün Adı</div>
-            
-            <div class="product-stats">
-                <div class="stat-item">
-                    <div class="stat-label">Stok Durumu:</div>
-                    <div id="detail-stock">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Son Güncelleme:</div>
-                    <div id="detail-date">01/03/2025</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Toplam Satış:</div>
-                    <div id="detail-sales">0</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-label">Toplam İade:</div>
-                    <div id="detail-returns">0</div>
-                </div>
-            </div>
-            
-            <div class="monthly-transactions">
-                <div class="monthly-title">Son 1 Aylık İşlemler</div>
-                <div class="transaction-list" id="detail-transactions">
-                    <!-- Burada işlemler listelenecek -->
-                </div>
-            </div>
-            
-            <div class="buttons">
-                <button class="back-button" onclick="backToCashier()">Kasa Sayfasına Dön</button>
-                <button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
-            </div>
-        </div>
-        <!-- Barkod tarayıcı konteyner -->
+<button onclick="goBack()">Ana Sayfaya Dön</button>
+</div>
+<button onclick="submitForm()">Gönder</button>
+<button onclick="goBack()">Ana Sayfaya Dön</button>
+</div>
+</div>
+<div id="login-page" class="container">
+<div class="login-form">
+<h1>Ürün Takip Sistemi</h1>
+<p>Giriş yapmak için kullanıcı adı ve şifre girin.</p>
+<input type="text" id="username" placeholder="Kullanıcı Adı" />
+<input type="password" id="password" placeholder="Şifre" />
+<button onclick="login()">Giriş Yap</button>
+</div>
+</div>
+<!-- Ana Sayfa -->
+<div id="main-page" class="container">
+<div class="header">
+<div>Ürün Takip Sistemi</div>
+<button class="logout-button" onclick="logout()">Çıkış</button><button class="form-button" onclick="showFormPage()">Form</button>
+<button class="form-button" onclick="toggleUserData()">Form Bilgileri</button></div>
+<div class="category">
+<h3>Aksesuar</h3>
+<p>Son Güncelleme: 01/03/2025</p>
+<button onclick="openCashierPage('Aksesuar')">Kasa</button>
+</div>
+<div class="category">
+<h3>Alt Giyim</h3>
+<p>Son Güncelleme: 01/03/2025</p>
+<button onclick="openCashierPage('Alt Giyim')">Kasa</button>
+</div>
+<div class="category">
+<h3>Üst Giyim</h3>
+<p>Son Güncelleme: 01/03/2025</p>
+<button onclick="openCashierPage('Üst Giyim')">Kasa</button>
+</div>
+<div class="category">
+<h3>Ayakkabı</h3>
+<p>Son Güncelleme: 01/03/2025</p>
+<button onclick="openCashierPage('Ayakkabı')">Kasa</button>
+</div>
+<div class="category">
+<h3>Dekorasyon</h3>
+<p>Son Güncelleme: 01/03/2025</p>
+<button onclick="openCashierPage('Dekorasyon')">Kasa</button>
+</div>
+<div class="category">
+<h3>Dış Giyim</h3>
+<p>Son Güncelleme: 01/03/2025</p>
+<button onclick="openCashierPage('Dış Giyim')">Kasa</button>
+</div>
+</div>
+<div id="user-data-section" class="container" style="display: none;">
+<h2>Form Bilgileri</h2>
+<div id="user-data-list"></div>
+</div>
+<!-- Kasa Sayfası -->
+<div id="cashier-page" class="container">
+<div class="header">
+<div>Ürün Takip Sistemi - <span id="current-category">Kasa</span></div>
+<button class="logout-button" onclick="logout()">Çıkış</button>
+</div>
+<div class="search-box">
+<input type="text" id="searchInput" placeholder="Ürün adı girin..." oninput="searchProduct()">
+</div>
+<div id="product-info" class="product-info"></div>
+<button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
+</div>
+<!-- Ürün Detay Sayfası -->
+<div id="product-detail-page" class="container">
+<div class="header">
+<div>Ürün Takip Sistemi - Ürün Detayı</div>
+<button class="logout-button" onclick="logout()">Çıkış</button>
+</div>
+<div class="product-detail-card">
+<div class="product-title" id="detail-product-title">Ürün Adı</div>
+<div class="product-stats">
+<div class="stat-item">
+<div class="stat-label">Stok Durumu:</div>
+<div id="detail-stock">0</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">Son Güncelleme:</div>
+<div id="detail-date">01/03/2025</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">Toplam Satış:</div>
+<div id="detail-sales">0</div>
+</div>
+<div class="stat-item">
+<div class="stat-label">Toplam İade:</div>
+<div id="detail-returns">0</div>
+</div>
+</div>
+<div class="monthly-transactions">
+<div class="monthly-title">Son 1 Aylık İşlemler</div>
+<div class="transaction-list" id="detail-transactions">
+<!-- Burada işlemler listelenecek -->
+</div>
+</div>
+<div class="buttons">
+<button class="back-button" onclick="backToCashier()">Kasa Sayfasına Dön</button>
+<button class="back-button" onclick="goBack()">Ana Sayfaya Dön</button>
+</div>
+</div>
+<!-- Barkod tarayıcı konteyner -->
 <div id="scanner-container">
-    <div id="qr-reader" style="width: 100%; max-width: 600px;"></div>
-    <div class="scanner-controls">
-        <button class="scanner-button cancel-button" id="close-scanner">İptal</button>
-    </div>
-    <div class="scan-result-indicator" id="scan-result-indicator"></div>
+<div id="qr-reader" style="width: 100%; max-width: 600px;"></div>
+<div class="scanner-controls">
+<button class="scanner-button cancel-button" id="close-scanner">İptal</button>
 </div>
-    </div>
-
-    <script>
-        window.onload = function() {
-    setupBackgroundImages();
-    displayUserData(); // Form bilgilerini sayfa yüklendiğinde göster
+<div class="scan-result-indicator" id="scan-result-indicator"></div>
+</div>
+</div>
+<script>
+window.onload = function() {
+setupBackgroundImages();
+displayUserData(); // Form bilgilerini sayfa yüklendiğinde göster
 };
-        
 // Local Storage'dan form verilerini yükle
 let formData = JSON.parse(localStorage.getItem("formData")) || [];
 // Form sayfasını göster
 function showFormPage() {
-    document.getElementById("main-page").style.display = "none";
-    document.getElementById("form-page").style.display = "block";
+document.getElementById("main-page").style.display = "none";
+document.getElementById("form-page").style.display = "block";
 }
-
 // Formu gönder ve bilgileri kaydet
 function submitForm() {
-    const email = document.getElementById("form-email").value;
-    const name = document.getElementById("form-name").value;
-    const surname = document.getElementById("form-surname").value;
-    const gender = document.getElementById("form-gender").value;
-    const birthdate = document.getElementById("form-birthdate").value;
-    const education = document.getElementById("form-education").value;
-
-    if (!email || !name || !surname || !gender || !birthdate || !education) {
-        alert("Lütfen tüm alanları doldurun.");
-        return;
-    }
-
-    formData.push({ email, name, surname, gender, birthdate, education });
-    // Local Storage'a form verilerini kaydet
-localStorage.setItem("formData", JSON.stringify(formData));
-    alert("Form başarıyla gönderildi!");
-    showDataPage();
+const email = document.getElementById("form-email").value;
+const name = document.getElementById("form-name").value;
+const surname = document.getElementById("form-surname").value;
+const gender = document.getElementById("form-gender").value;
+const birthdate = document.getElementById("form-birthdate").value;
+const education = document.getElementById("form-education").value;
+if (!email || !name || !surname || !gender || !birthdate || !education) {
+alert("Lütfen tüm alanları doldurun.");
+return;
 }
-
+formData.push({ email, name, surname, gender, birthdate, education });
+// Local Storage'a form verilerini kaydet
+localStorage.setItem("formData", JSON.stringify(formData));
+alert("Form başarıyla gönderildi!");
+showDataPage();
+}
 // Verilerin görüntülendiği sayfayı göster
 function showDataPage() {
-    document.getElementById("form-page").style.display = "none";
-    document.getElementById("data-page").style.display = "block";
-
-    const dataEntries = document.getElementById("data-entries");
-    dataEntries.innerHTML = "";
-
-    formData.forEach((data, index) => {
-        const entry = document.createElement("div");
-        entry.className = "data-entry";
-        entry.innerHTML = `
-            <strong>Kayıt ${index + 1}</strong><br>
-            E-posta: ${data.email}<br>
-            Ad: ${data.name}<br>
-            Soyad: ${data.surname}<br>
-            Cinsiyet: ${data.gender}<br>
-            Doğum Tarihi: ${data.birthdate}<br>
-            Öğrenim Durumu: ${data.education}
-        `;
-        dataEntries.appendChild(entry);
-    });
+document.getElementById("form-page").style.display = "none";
+document.getElementById("data-page").style.display = "block";
+const dataEntries = document.getElementById("data-entries");
+dataEntries.innerHTML = "";
+formData.forEach((data, index) => {
+const entry = document.createElement("div");
+entry.className = "data-entry";
+entry.innerHTML = `
+<strong>Kayıt ${index + 1}</strong><br>
+E-posta: ${data.email}<br>
+Ad: ${data.name}<br>
+Soyad: ${data.surname}<br>
+Cinsiyet: ${data.gender}<br>
+Doğum Tarihi: ${data.birthdate}<br>
+Öğrenim Durumu: ${data.education}
+`;
+dataEntries.appendChild(entry);
+});
 }
-
 // Ana sayfaya dön
 function goBack() {
-    document.getElementById("form-page").style.display = "none";
-    document.getElementById("data-page").style.display = "none";
-    document.getElementById("main-page").style.display = "block";
+document.getElementById("form-page").style.display = "none";
+document.getElementById("data-page").style.display = "none";
+document.getElementById("main-page").style.display = "block";
 }
 // Kamera ile barkod tarama işlevleri
 let html5QrCode;
 let activeScanning = false;
 let scannerContainer;
 let scanResultIndicator;
-
 // Sayfada kamera-tarayıcı öğelerini başlat
 function initScanner() {
-    // Scanner container ve result indicator elementlerini al
-    scannerContainer = document.getElementById('scanner-container');
-    scanResultIndicator = document.getElementById('scan-result-indicator');
-    
-    // Kapatma düğmesini ayarla
-    document.getElementById('close-scanner').addEventListener('click', closeScanner);
-    
-    // HTML5 QR kod tarayıcıyı yapılandır
-    html5QrCode = new Html5Qrcode("qr-reader");
+// Scanner container ve result indicator elementlerini al
+scannerContainer = document.getElementById('scanner-container');
+scanResultIndicator = document.getElementById('scan-result-indicator');
+// Kapatma düğmesini ayarla
+document.getElementById('close-scanner').addEventListener('click', closeScanner);
+// HTML5 QR kod tarayıcıyı yapılandır
+html5QrCode = new Html5Qrcode("qr-reader");
 }
-
 // Barkod tarayıcıyı aç
 function openScanner() {
-    if (activeScanning) return;
-    
-    scannerContainer.style.display = 'flex';
-    
-    const qrConfig = { fps: 10, qrbox: { width: 250, height: 250 } };
-    
-    // Mevcut cihazın kameralarını al
-    Html5Qrcode.getCameras().then(devices => {
-        if (devices && devices.length) {
-            // Arka kamera varsa onu kullan (genellikle index 1), yoksa ilk kamerayı kullan
-            const cameraId = devices.length > 1 ? devices[1].id : devices[0].id;
-            
-            activeScanning = true;
-            
-            html5QrCode.start(
-                cameraId, 
-                qrConfig, 
-                onScanSuccess, 
-                onScanFailure
-            ).catch(err => {
-                console.error("Kamera başlatılamadı:", err);
-                alert("Kamera erişimi sağlanamadı. Lütfen kamera izinlerini kontrol edin.");
-                closeScanner();
-            });
-        } else {
-            alert("Bu cihazda kamera bulunamadı.");
-            closeScanner();
-        }
-    }).catch(err => {
-        console.error("Kameralar alınamadı:", err);
-        alert("Kamera erişimi sağlanamadı. Lütfen tarayıcı izinlerini kontrol edin.");
-        closeScanner();
-    });
+if (activeScanning) return;
+scannerContainer.style.display = 'flex';
+const qrConfig = { fps: 10, qrbox: { width: 250, height: 250 } };
+// Mevcut cihazın kameralarını al
+Html5Qrcode.getCameras().then(devices => {
+if (devices && devices.length) {
+// Arka kamera varsa onu kullan (genellikle index 1), yoksa ilk kamerayı kullan
+const cameraId = devices.length > 1 ? devices[1].id : devices[0].id;
+activeScanning = true;
+html5QrCode.start(
+cameraId, 
+qrConfig, 
+onScanSuccess, 
+onScanFailure
+).catch(err => {
+console.error("Kamera başlatılamadı:", err);
+alert("Kamera erişimi sağlanamadı. Lütfen kamera izinlerini kontrol edin.");
+closeScanner();
+});
+} else {
+alert("Bu cihazda kamera bulunamadı.");
+closeScanner();
 }
-
+}).catch(err => {
+console.error("Kameralar alınamadı:", err);
+alert("Kamera erişimi sağlanamadı. Lütfen tarayıcı izinlerini kontrol edin.");
+closeScanner();
+});
+}
 // Barkod tarayıcıyı kapat
 function closeScanner() {
-    if (activeScanning) {
-        html5QrCode.stop().then(() => {
-            console.log("Tarayıcı durduruldu.");
-        }).catch(err => {
-            console.error("Tarayıcı durdurulurken hata:", err);
-        });
-        activeScanning = false;
-    }
-    
-    scannerContainer.style.display = 'none';
-    scanResultIndicator.style.display = 'none';
+if (activeScanning) {
+html5QrCode.stop().then(() => {
+console.log("Tarayıcı durduruldu.");
+}).catch(err => {
+console.error("Tarayıcı durdurulurken hata:", err);
+});
+activeScanning = false;
 }
-
+scannerContainer.style.display = 'none';
+scanResultIndicator.style.display = 'none';
+}
 // Barkod başarıyla okunduğunda
 function onScanSuccess(decodedText, decodedResult) {
-    console.log(`Barkod okundu: ${decodedText}`, decodedResult);
-    
-    // Başarı göstergesi
-    scanResultIndicator.textContent = `Barkod okundu: ${decodedText}`;
-    scanResultIndicator.style.display = 'block';
-    
-    // Veriyi al ve barkod giriş alanına yerleştir
-    document.getElementById('barcodeInput').value = decodedText;
-    
-    // Tarayıcıyı kapat ve barkodu işle
-    setTimeout(() => {
-        closeScanner();
-        processBarcodeInput();
-    }, 1000);
+console.log(`Barkod okundu: ${decodedText}`, decodedResult);
+// Başarı göstergesi
+scanResultIndicator.textContent = `Barkod okundu: ${decodedText}`;
+scanResultIndicator.style.display = 'block';
+// Veriyi al ve barkod giriş alanına yerleştir
+document.getElementById('barcodeInput').value = decodedText;
+// Tarayıcıyı kapat ve barkodu işle
+setTimeout(() => {
+closeScanner();
+processBarcodeInput();
+}, 1000);
 }
-
 // Barkod okuma başarısız olduğunda
 function onScanFailure(error) {
-    // console.warn(`Barkod okunamadı: ${error}`);
-    // Sürekli hata vermemesi için bu kısım sessiz çalışır
+// console.warn(`Barkod okunamadı: ${error}`);
+// Sürekli hata vermemesi için bu kısım sessiz çalışır
 }
-
-
-        // Kategori bazlı ürün verileri
-        const categoryProducts = {
-            "Aksesuar": ["Takı", "Toka", "Gözlük", "Kemer"],
-            "Alt Giyim": ["Etek", "Jean", "Kumaş Pantolon"],
-            "Üst Giyim": ["Gömlek", "Kazak", "T-shirt", "Hırka"],
-            "Ayakkabı": ["Bot-Çizme", "Topuklu Ayakkabı", "Babet", "Spor Ayakkabı"],
-            "Dekorasyon": ["Vazo", "Çerçeve"],
-            "Dış Giyim": ["Şişme Yelek", "Yağmurluk", "Kaban"]
-        };
-
-        function toggleUserData() {
-    const userDataSection = document.getElementById("user-data-section");
-    if (userDataSection.style.display === "none" || userDataSection.style.display === "") {
-        userDataSection.style.display = "block";
-    } else {
-        userDataSection.style.display = "none";
-    }
+// Kategori bazlı ürün verileri
+const categoryProducts = {
+"Aksesuar": ["Takı", "Toka", "Gözlük", "Kemer"],
+"Alt Giyim": ["Etek", "Jean", "Kumaş Pantolon"],
+"Üst Giyim": ["Gömlek", "Kazak", "T-shirt", "Hırka"],
+"Ayakkabı": ["Bot-Çizme", "Topuklu Ayakkabı", "Babet", "Spor Ayakkabı"],
+"Dekorasyon": ["Vazo", "Çerçeve"],
+"Dış Giyim": ["Şişme Yelek", "Yağmurluk", "Kaban"]
+};
+function toggleUserData() {
+const userDataSection = document.getElementById("user-data-section");
+if (userDataSection.style.display === "none" || userDataSection.style.display === "") {
+userDataSection.style.display = "block";
+} else {
+userDataSection.style.display = "none";
 }
-        // Form Bilgilerini Listele
+}
+// Form Bilgilerini Listele
 function displayUserData() {
-    const userDataSection = document.getElementById("user-data-section");
-    const userDataList = document.getElementById("user-data-list");
-
-    // Bölümü görünür yap
-    userDataSection.style.display = "block";
-
-    // Listeyi temizle
-    userDataList.innerHTML = "";
-
-    // Form bilgilerini ekle
-    formData.forEach((data, index) => {
-        const entry = document.createElement("div");
-        entry.className = "data-entry";
-        entry.style.marginBottom = "10px";
-        entry.style.padding = "10px";
-        entry.style.border = "1px solid #ccc";
-        entry.style.borderRadius = "5px";
-        entry.style.backgroundColor = "#f8f9fa";
-
-        entry.innerHTML = `
-            <strong>Kayıt ${index + 1}</strong><br>
-            E-posta: ${data.email}<br>
-            Ad: ${data.name}<br>
-            Soyad: ${data.surname}<br>
-            Cinsiyet: ${data.gender}<br>
-            Doğum Tarihi: ${data.birthdate}<br>
-            Öğrenim Durumu: ${data.education}
-        `;
-        userDataList.appendChild(entry);
-    });
+const userDataSection = document.getElementById("user-data-section");
+const userDataList = document.getElementById("user-data-list");
+// Bölümü görünür yap
+userDataSection.style.display = "block";
+// Listeyi temizle
+userDataList.innerHTML = "";
+// Form bilgilerini ekle
+formData.forEach((data, index) => {
+const entry = document.createElement("div");
+entry.className = "data-entry";
+entry.style.marginBottom = "10px";
+entry.style.padding = "10px";
+entry.style.border = "1px solid #ccc";
+entry.style.borderRadius = "5px";
+entry.style.backgroundColor = "#f8f9fa";
+entry.innerHTML = `
+<strong>Kayıt ${index + 1}</strong><br>
+E-posta: ${data.email}<br>
+Ad: ${data.name}<br>
+Soyad: ${data.surname}<br>
+Cinsiyet: ${data.gender}<br>
+Doğum Tarihi: ${data.birthdate}<br>
+Öğrenim Durumu: ${data.education}
+`;
+userDataList.appendChild(entry);
+});
 }
-        // Ürün detay verileri - normalde bir veritabanından gelecek
-        const productDetails = {
-            // Aksesuar ürünleri
-            "Takı": {
-                stock: 45,
-                lastUpdate: "12/03/2025",
-                totalSales: 28,
-                totalReturns: 3,
-                monthlyTransactions: [
-                    { date: "15/02/2025", type: "Satış", amount: 2 },
-                    { date: "22/02/2025", type: "Satış", amount: 3 },
-                    { date: "01/03/2025", type: "İade", amount: 1 },
-                    { date: "10/03/2025", type: "Satış", amount: 4 }
-                ]
-            },
-            "Toka": {
-                stock: 60,
-                lastUpdate: "08/03/2025",
-                totalSales: 32,
-                totalReturns: 2,
-                monthlyTransactions: [
-                    { date: "20/02/2025", type: "Satış", amount: 5 },
-                    { date: "28/02/2025", type: "İade", amount: 1 },
-                    { date: "05/03/2025", type: "Satış", amount: 3 }
-                ]
-            },
-            "Gözlük": {
-                stock: 25,
-                lastUpdate: "15/03/2025",
-                totalSales: 18,
-                totalReturns: 4,
-                monthlyTransactions: [
-                    { date: "18/02/2025", type: "Satış", amount: 2 },
-                    { date: "25/02/2025", type: "İade", amount: 1 },
-                    { date: "03/03/2025", type: "Satış", amount: 3 },
-                    { date: "12/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Kemer": {
-                stock: 35,
-                lastUpdate: "10/03/2025",
-                totalSales: 22,
-                totalReturns: 1,
-                monthlyTransactions: [
-                    { date: "16/02/2025", type: "Satış", amount: 4 },
-                    { date: "28/02/2025", type: "Satış", amount: 2 },
-                    { date: "07/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            
-            // Alt Giyim ürünleri
-            "Etek": {
-                stock: 40,
-                lastUpdate: "12/03/2025",
-                totalSales: 25,
-                totalReturns: 5,
-                monthlyTransactions: [
-                    { date: "17/02/2025", type: "Satış", amount: 3 },
-                    { date: "24/02/2025", type: "İade", amount: 2 },
-                    { date: "05/03/2025", type: "Satış", amount: 4 },
-                    { date: "10/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Jean": {
-                stock: 65,
-                lastUpdate: "15/03/2025",
-                totalSales: 45,
-                totalReturns: 8,
-                monthlyTransactions: [
-                    { date: "18/02/2025", type: "Satış", amount: 6 },
-                    { date: "26/02/2025", type: "İade", amount: 2 },
-                    { date: "04/03/2025", type: "Satış", amount: 5 },
-                    { date: "11/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Kumaş Pantolon": {
-                stock: 30,
-                lastUpdate: "08/03/2025",
-                totalSales: 20,
-                totalReturns: 3,
-                monthlyTransactions: [
-                    { date: "19/02/2025", type: "Satış", amount: 3 },
-                    { date: "27/02/2025", type: "İade", amount: 1 },
-                    { date: "05/03/2025", type: "Satış", amount: 2 }
-                ]
-            },
-            
-            // Üst Giyim ürünleri
-            "Gömlek": {
-                stock: 55,
-                lastUpdate: "14/03/2025",
-                totalSales: 35,
-                totalReturns: 4,
-                monthlyTransactions: [
-                    { date: "16/02/2025", type: "Satış", amount: 4 },
-                    { date: "24/02/2025", type: "İade", amount: 1 },
-                    { date: "03/03/2025", type: "Satış", amount: 5 },
-                    { date: "10/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Kazak": {
-                stock: 40,
-                lastUpdate: "10/03/2025",
-                totalSales: 28,
-                totalReturns: 6,
-                monthlyTransactions: [
-                    { date: "17/02/2025", type: "Satış", amount: 3 },
-                    { date: "25/02/2025", type: "İade", amount: 2 },
-                    { date: "02/03/2025", type: "Satış", amount: 4 },
-                    { date: "08/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "T-shirt": {
-                stock: 85,
-                lastUpdate: "15/03/2025",
-                totalSales: 60,
-                totalReturns: 8,
-                monthlyTransactions: [
-                    { date: "18/02/2025", type: "Satış", amount: 7 },
-                    { date: "26/02/2025", type: "İade", amount: 2 },
-                    { date: "04/03/2025", type: "Satış", amount: 8 },
-                    { date: "12/03/2025", type: "İade", amount: 3 }
-                ]
-            },
-            "Hırka": {
-                stock: 25,
-                lastUpdate: "06/03/2025",
-                totalSales: 15,
-                totalReturns: 2,
-                monthlyTransactions: [
-                    { date: "16/02/2025", type: "Satış", amount: 2 },
-                    { date: "24/02/2025", type: "İade", amount: 1 },
-                    { date: "02/03/2025", type: "Satış", amount: 3 }
-                ]
-            },
-            
-            // Ayakkabı ürünleri
-            "Bot-Çizme": {
-                stock: 30,
-                lastUpdate: "12/03/2025",
-                totalSales: 22,
-                totalReturns: 5,
-                monthlyTransactions: [
-                    { date: "15/02/2025", type: "Satış", amount: 3 },
-                    { date: "23/02/2025", type: "İade", amount: 2 },
-                    { date: "04/03/2025", type: "Satış", amount: 4 },
-                    { date: "10/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Topuklu Ayakkabı": {
-                stock: 35,
-                lastUpdate: "14/03/2025",
-                totalSales: 25,
-                totalReturns: 6,
-                monthlyTransactions: [
-                    { date: "17/02/2025", type: "Satış", amount: 4 },
-                    { date: "25/02/2025", type: "İade", amount: 2 },
-                    { date: "05/03/2025", type: "Satış", amount: 3 },
-                    { date: "12/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Babet": {
-                stock: 40,
-                lastUpdate: "08/03/2025",
-                totalSales: 28,
-                totalReturns: 3,
-                monthlyTransactions: [
-                    { date: "19/02/2025", type: "Satış", amount: 5 },
-                    { date: "26/02/2025", type: "İade", amount: 1 },
-                    { date: "03/03/2025", type: "Satış", amount: 4 }
-                ]
-            },
-            "Spor Ayakkabı": {
-                stock: 50,
-                lastUpdate: "15/03/2025",
-                totalSales: 38,
-                totalReturns: 4,
-                monthlyTransactions: [
-                    { date: "18/02/2025", type: "Satış", amount: 6 },
-                    { date: "27/02/2025", type: "İade", amount: 1 },
-                    { date: "06/03/2025", type: "Satış", amount: 5 },
-                    { date: "13/03/2025", type: "İade", amount: 2 }
-                ]
-            },
-            
-            // Dekorasyon ürünleri
-            "Vazo": {
-                stock: 25,
-                lastUpdate: "09/03/2025",
-                totalSales: 18,
-                totalReturns: 2,
-                monthlyTransactions: [
-                    { date: "16/02/2025", type: "Satış", amount: 3 },
-                    { date: "24/02/2025", type: "İade", amount: 1 },
-                    { date: "05/03/2025", type: "Satış", amount: 2 }
-                ]
-            },
-            "Çerçeve": {
-                stock: 30,
-                lastUpdate: "13/03/2025",
-                totalSales: 22,
-                totalReturns: 1,
-                monthlyTransactions: [
-                    { date: "18/02/2025", type: "Satış", amount: 4 },
-                    { date: "02/03/2025", type: "İade", amount: 1 },
-                    { date: "10/03/2025", type: "Satış", amount: 3 }
-                ]
-            },
-            
-            // Dış Giyim ürünleri
-            "Şişme Yelek": {
-                stock: 20,
-                lastUpdate: "10/03/2025",
-                totalSales: 15,
-                totalReturns: 3,
-                monthlyTransactions: [
-                    { date: "17/02/2025", type: "Satış", amount: 2 },
-                    { date: "25/02/2025", type: "İade", amount: 1 },
-                    { date: "04/03/2025", type: "Satış", amount: 3 },
-                    { date: "08/03/2025", type: "İade", amount: 1 }
-                ]
-            },
-            "Yağmurluk": {
-                stock: 25,
-                lastUpdate: "12/03/2025",
-                totalSales: 18,
-                totalReturns: 2,
-                monthlyTransactions: [
-                    { date: "19/02/2025", type: "Satış", amount: 3 },
-                    { date: "28/02/2025", type: "İade", amount: 1 },
-                    { date: "07/03/2025", type: "Satış", amount: 4 }
-                ]
-            },
-            "Kaban": {
-                stock: 15,
-                lastUpdate: "05/03/2025",
-                totalSales: 10,
-                totalReturns: 1,
-                monthlyTransactions: [
-                    { date: "16/02/2025", type: "Satış", amount: 2 },
-                    { date: "22/02/2025", type: "İade", amount: 1 },
-                    { date: "01/03/2025", type: "Satış", amount: 1 }
-                ]
-            }
-        };
-
-        // Sayfa yüklendiğinde çalışacak fonksiyon
-        window.onload = function() {
-            setupBackgroundImages();
-        };
-        
-        // Global değişkenler
-        let currentCategory = "";
-        
-        // Arka plana rastgele resimleri yerleştirir
-        function setupBackgroundImages() {
-            const container = document.getElementById('backgroundImages');
-            
-            // Göreceli dosya yolları - HTML ile aynı klasörde
-            const imagePaths = [
-                "foto1.jpeg",
-                "foto2.jpeg",
-                "foto3.jpeg",
-                "foto4.jpeg"
-            ];
-            
-            const rows = Math.ceil(window.innerHeight / 300) + 4;
-            const cols = Math.ceil(window.innerWidth / 300) + 4;
-            const totalCells = rows * cols;
-            
-            for (let i = 0; i < totalCells; i++) {
-                const randomIndex = Math.floor(Math.random() * imagePaths.length);
-                const img = document.createElement('img');
-                
-                // Göreceli dosya yolunu kullanıyoruz
-                img.src = imagePaths[randomIndex];
-                img.className = 'bg-image';
-                img.alt = "Arka plan resmi " + (randomIndex + 1);
-                
-                // Resim yüklenemediğinde hata işleme
-                img.onerror = function() {
-                    console.error("Resim yüklenemedi: " + imagePaths[randomIndex]);
-                    this.src = ""; // Kırık resim ikonunu gösterme
-                };
-                
-                container.appendChild(img);
-            }
-        }
+// Ürün detay verileri - normalde bir veritabanından gelecek
+const productDetails = {
+// Aksesuar ürünleri
+"Takı": {
+stock: 45,
+lastUpdate: "12/03/2025",
+totalSales: 28,
+totalReturns: 3,
+monthlyTransactions: [
+{ date: "15/02/2025", type: "Satış", amount: 2 },
+{ date: "22/02/2025", type: "Satış", amount: 3 },
+{ date: "01/03/2025", type: "İade", amount: 1 },
+{ date: "10/03/2025", type: "Satış", amount: 4 }
+]
+},
+"Toka": {
+stock: 60,
+lastUpdate: "08/03/2025",
+totalSales: 32,
+totalReturns: 2,
+monthlyTransactions: [
+{ date: "20/02/2025", type: "Satış", amount: 5 },
+{ date: "28/02/2025", type: "İade", amount: 1 },
+{ date: "05/03/2025", type: "Satış", amount: 3 }
+]
+},
+"Gözlük": {
+stock: 25,
+lastUpdate: "15/03/2025",
+totalSales: 18,
+totalReturns: 4,
+monthlyTransactions: [
+{ date: "18/02/2025", type: "Satış", amount: 2 },
+{ date: "25/02/2025", type: "İade", amount: 1 },
+{ date: "03/03/2025", type: "Satış", amount: 3 },
+{ date: "12/03/2025", type: "İade", amount: 1 }
+]
+},
+"Kemer": {
+stock: 35,
+lastUpdate: "10/03/2025",
+totalSales: 22,
+totalReturns: 1,
+monthlyTransactions: [
+{ date: "16/02/2025", type: "Satış", amount: 4 },
+{ date: "28/02/2025", type: "Satış", amount: 2 },
+{ date: "07/03/2025", type: "İade", amount: 1 }
+]
+},
+// Alt Giyim ürünleri
+"Etek": {
+stock: 40,
+lastUpdate: "12/03/2025",
+totalSales: 25,
+totalReturns: 5,
+monthlyTransactions: [
+{ date: "17/02/2025", type: "Satış", amount: 3 },
+{ date: "24/02/2025", type: "İade", amount: 2 },
+{ date: "05/03/2025", type: "Satış", amount: 4 },
+{ date: "10/03/2025", type: "İade", amount: 1 }
+]
+},
+"Jean": {
+stock: 65,
+lastUpdate: "15/03/2025",
+totalSales: 45,
+totalReturns: 8,
+monthlyTransactions: [
+{ date: "18/02/2025", type: "Satış", amount: 6 },
+{ date: "26/02/2025", type: "İade", amount: 2 },
+{ date: "04/03/2025", type: "Satış", amount: 5 },
+{ date: "11/03/2025", type: "İade", amount: 1 }
+]
+},
+"Kumaş Pantolon": {
+stock: 30,
+lastUpdate: "08/03/2025",
+totalSales: 20,
+totalReturns: 3,
+monthlyTransactions: [
+{ date: "19/02/2025", type: "Satış", amount: 3 },
+{ date: "27/02/2025", type: "İade", amount: 1 },
+{ date: "05/03/2025", type: "Satış", amount: 2 }
+]
+},
+// Üst Giyim ürünleri
+"Gömlek": {
+stock: 55,
+lastUpdate: "14/03/2025",
+totalSales: 35,
+totalReturns: 4,
+monthlyTransactions: [
+{ date: "16/02/2025", type: "Satış", amount: 4 },
+{ date: "24/02/2025", type: "İade", amount: 1 },
+{ date: "03/03/2025", type: "Satış", amount: 5 },
+{ date: "10/03/2025", type: "İade", amount: 1 }
+]
+},
+"Kazak": {
+stock: 40,
+lastUpdate: "10/03/2025",
+totalSales: 28,
+totalReturns: 6,
+monthlyTransactions: [
+{ date: "17/02/2025", type: "Satış", amount: 3 },
+{ date: "25/02/2025", type: "İade", amount: 2 },
+{ date: "02/03/2025", type: "Satış", amount: 4 },
+{ date: "08/03/2025", type: "İade", amount: 1 }
+]
+},
+"T-shirt": {
+stock: 85,
+lastUpdate: "15/03/2025",
+totalSales: 60,
+totalReturns: 8,
+monthlyTransactions: [
+{ date: "18/02/2025", type: "Satış", amount: 7 },
+{ date: "26/02/2025", type: "İade", amount: 2 },
+{ date: "04/03/2025", type: "Satış", amount: 8 },
+{ date: "12/03/2025", type: "İade", amount: 3 }
+]
+},
+"Hırka": {
+stock: 25,
+lastUpdate: "06/03/2025",
+totalSales: 15,
+totalReturns: 2,
+monthlyTransactions: [
+{ date: "16/02/2025", type: "Satış", amount: 2 },
+{ date: "24/02/2025", type: "İade", amount: 1 },
+{ date: "02/03/2025", type: "Satış", amount: 3 }
+]
+},
+// Ayakkabı ürünleri
+"Bot-Çizme": {
+stock: 30,
+lastUpdate: "12/03/2025",
+totalSales: 22,
+totalReturns: 5,
+monthlyTransactions: [
+{ date: "15/02/2025", type: "Satış", amount: 3 },
+{ date: "23/02/2025", type: "İade", amount: 2 },
+{ date: "04/03/2025", type: "Satış", amount: 4 },
+{ date: "10/03/2025", type: "İade", amount: 1 }
+]
+},
+"Topuklu Ayakkabı": {
+stock: 35,
+lastUpdate: "14/03/2025",
+totalSales: 25,
+totalReturns: 6,
+monthlyTransactions: [
+{ date: "17/02/2025", type: "Satış", amount: 4 },
+{ date: "25/02/2025", type: "İade", amount: 2 },
+{ date: "05/03/2025", type: "Satış", amount: 3 },
+{ date: "12/03/2025", type: "İade", amount: 1 }
+]
+},
+"Babet": {
+stock: 40,
+lastUpdate: "08/03/2025",
+totalSales: 28,
+totalReturns: 3,
+monthlyTransactions: [
+{ date: "19/02/2025", type: "Satış", amount: 5 },
+{ date: "26/02/2025", type: "İade", amount: 1 },
+{ date: "03/03/2025", type: "Satış", amount: 4 }
+]
+},
+"Spor Ayakkabı": {
+stock: 50,
+lastUpdate: "15/03/2025",
+totalSales: 38,
+totalReturns: 4,
+monthlyTransactions: [
+{ date: "18/02/2025", type: "Satış", amount: 6 },
+{ date: "27/02/2025", type: "İade", amount: 1 },
+{ date: "06/03/2025", type: "Satış", amount: 5 },
+{ date: "13/03/2025", type: "İade", amount: 2 }
+]
+},
+// Dekorasyon ürünleri
+"Vazo": {
+stock: 25,
+lastUpdate: "09/03/2025",
+totalSales: 18,
+totalReturns: 2,
+monthlyTransactions: [
+{ date: "16/02/2025", type: "Satış", amount: 3 },
+{ date: "24/02/2025", type: "İade", amount: 1 },
+{ date: "05/03/2025", type: "Satış", amount: 2 }
+]
+},
+"Çerçeve": {
+stock: 30,
+lastUpdate: "13/03/2025",
+totalSales: 22,
+totalReturns: 1,
+monthlyTransactions: [
+{ date: "18/02/2025", type: "Satış", amount: 4 },
+{ date: "02/03/2025", type: "İade", amount: 1 },
+{ date: "10/03/2025", type: "Satış", amount: 3 }
+]
+},
+// Dış Giyim ürünleri
+"Şişme Yelek": {
+stock: 20,
+lastUpdate: "10/03/2025",
+totalSales: 15,
+totalReturns: 3,
+monthlyTransactions: [
+{ date: "17/02/2025", type: "Satış", amount: 2 },
+{ date: "25/02/2025", type: "İade", amount: 1 },
+{ date: "04/03/2025", type: "Satış", amount: 3 },
+{ date: "08/03/2025", type: "İade", amount: 1 }
+]
+},
+"Yağmurluk": {
+stock: 25,
+lastUpdate: "12/03/2025",
+totalSales: 18,
+totalReturns: 2,
+monthlyTransactions: [
+{ date: "19/02/2025", type: "Satış", amount: 3 },
+{ date: "28/02/2025", type: "İade", amount: 1 },
+{ date: "07/03/2025", type: "Satış", amount: 4 }
+]
+},
+"Kaban": {
+stock: 15,
+lastUpdate: "05/03/2025",
+totalSales: 10,
+totalReturns: 1,
+monthlyTransactions: [
+{ date: "16/02/2025", type: "Satış", amount: 2 },
+{ date: "22/02/2025", type: "İade", amount: 1 },
+{ date: "01/03/2025", type: "Satış", amount: 1 }
+]
+}
+};
+// Sayfa yüklendiğinde çalışacak fonksiyon
+window.onload = function() {
+setupBackgroundImages();
+};
+// Global değişkenler
+let currentCategory = "";
+// Arka plana rastgele resimleri yerleştirir
+function setupBackgroundImages() {
+const container = document.getElementById('backgroundImages');
+// Göreceli dosya yolları - HTML ile aynı klasörde
+const imagePaths = [
+"foto1.jpeg",
+"foto2.jpeg",
+"foto3.jpeg",
+"foto4.jpeg"
+];
+const rows = Math.ceil(window.innerHeight / 300) + 4;
+const cols = Math.ceil(window.innerWidth / 300) + 4;
+const totalCells = rows * cols;
+for (let i = 0; i < totalCells; i++) {
+const randomIndex = Math.floor(Math.random() * imagePaths.length);
+const img = document.createElement('img');
+// Göreceli dosya yolunu kullanıyoruz
+img.src = imagePaths[randomIndex];
+img.className = 'bg-image';
+img.alt = "Arka plan resmi " + (randomIndex + 1);
+// Resim yüklenemediğinde hata işleme
+img.onerror = function() {
+console.error("Resim yüklenemedi: " + imagePaths[randomIndex]);
+this.src = ""; // Kırık resim ikonunu gösterme
+};
+container.appendChild(img);
+}
+}
 // Giriş Yapma Fonksiyonu
 function login() {
-            // Giriş bilgileri boş olsa da, doğrudan geçiş yapılacak
-            document.getElementById("login-page").style.display = "none";
-            document.getElementById("main-page").style.display = "block";
-            
-            // Arka plan resimlerini gizle - sadece giriş sayfasında gösterilecek
-            document.getElementById("backgroundImages").style.display = "none";
-        }
-
-        // Kasa sayfasına yönlendirme
-        function openCashierPage(category) {
-            currentCategory = category;
-            document.getElementById("main-page").style.display = "none";
-            document.getElementById("cashier-page").style.display = "block";
-            document.getElementById("current-category").textContent = category;
-            
-            // Arama kutusunu temizle
-            document.getElementById("searchInput").value = "";
-            document.getElementById("product-info").innerHTML = "";
-            
-            // Kategori ürünlerini listele
-            let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
-            
-            categoryProducts[category].forEach(product => {
-                productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
-            });
-            
-            document.getElementById("product-info").innerHTML = productHtml;
-        }
-
-        // Ürün Arama
-        function searchProduct() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            const productInfo = document.getElementById("product-info");
-            
-            if (query.length === 0) {
-                // Arama boşsa kategorideki tüm ürünleri göster
-                let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
-                
-                categoryProducts[currentCategory].forEach(product => {
-                    productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
-                });
-                
-                productInfo.innerHTML = productHtml;
-                return;
-            }
-            
-            // İlgili kategorideki ürünleri ara
-            let results = categoryProducts[currentCategory].filter(product => 
-                product.toLowerCase().includes(query)
-            );
-            
-            if (results.length > 0) {
-                let productHtml = "<div style='margin-bottom: 20px;'><strong>Arama Sonuçları:</strong></div>";
-                
-                results.forEach(product => {
-                    productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
-                });
-                
-                productInfo.innerHTML = productHtml;
-            } else {
-                productInfo.innerHTML = "Arama kriterine uygun ürün bulunamadı.";
-            }
-        }
-
-        // Ürün detay sayfasını aç
-function openProductDetail(productName) {
-    document.getElementById("cashier-page").style.display = "none";
-    document.getElementById("product-detail-page").style.display = "block";
-    
-    // Ürün bilgilerini doldur
-    const productData = productDetails[productName];
-    
-    document.getElementById("detail-product-title").textContent = productName;
-    document.getElementById("detail-stock").textContent = productData.stock;
-    document.getElementById("detail-date").textContent = productData.lastUpdate;
-    document.getElementById("detail-sales").textContent = productData.totalSales;
-    document.getElementById("detail-returns").textContent = productData.totalReturns;
-    
-    // Son 1 aylık işlemleri doldur
-    let transactionHtml = "";
-    
-    if (productData.monthlyTransactions.length > 0) {
-        productData.monthlyTransactions.forEach(transaction => {
-            transactionHtml += `<div class="transaction">
-                <strong>${transaction.date}</strong> - ${transaction.type}: ${transaction.amount} adet
-            </div>`;
-        });
-    } else {
-        transactionHtml = "<p>Son 1 ayda işlem yapılmamış.</p>";
-    }
-    
-    document.getElementById("detail-transactions").innerHTML = transactionHtml;
+// Giriş bilgileri boş olsa da, doğrudan geçiş yapılacak
+document.getElementById("login-page").style.display = "none";
+document.getElementById("main-page").style.display = "block";
+// Arka plan resimlerini gizle - sadece giriş sayfasında gösterilecek
+document.getElementById("backgroundImages").style.display = "none";
 }
-
+// Kasa sayfasına yönlendirme
+function openCashierPage(category) {
+currentCategory = category;
+document.getElementById("main-page").style.display = "none";
+document.getElementById("cashier-page").style.display = "block";
+document.getElementById("current-category").textContent = category;
+// Arama kutusunu temizle
+document.getElementById("searchInput").value = "";
+document.getElementById("product-info").innerHTML = "";
+// Kategori ürünlerini listele
+let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
+categoryProducts[category].forEach(product => {
+productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+});
+document.getElementById("product-info").innerHTML = productHtml;
+}
+// Ürün Arama
+function searchProduct() {
+const query = document.getElementById("searchInput").value.toLowerCase();
+const productInfo = document.getElementById("product-info");
+if (query.length === 0) {
+// Arama boşsa kategorideki tüm ürünleri göster
+let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
+categoryProducts[currentCategory].forEach(product => {
+productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+});
+productInfo.innerHTML = productHtml;
+return;
+}
+// İlgili kategorideki ürünleri ara
+let results = categoryProducts[currentCategory].filter(product => 
+product.toLowerCase().includes(query)
+);
+if (results.length > 0) {
+let productHtml = "<div style='margin-bottom: 20px;'><strong>Arama Sonuçları:</strong></div>";
+results.forEach(product => {
+productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+});
+productInfo.innerHTML = productHtml;
+} else {
+productInfo.innerHTML = "Arama kriterine uygun ürün bulunamadı.";
+}
+}
+// Ürün detay sayfasını aç
+function openProductDetail(productName) {
+document.getElementById("cashier-page").style.display = "none";
+document.getElementById("product-detail-page").style.display = "block";
+// Ürün bilgilerini doldur
+const productData = productDetails[productName];
+document.getElementById("detail-product-title").textContent = productName;
+document.getElementById("detail-stock").textContent = productData.stock;
+document.getElementById("detail-date").textContent = productData.lastUpdate;
+document.getElementById("detail-sales").textContent = productData.totalSales;
+document.getElementById("detail-returns").textContent = productData.totalReturns;
+// Son 1 aylık işlemleri doldur
+let transactionHtml = "";
+if (productData.monthlyTransactions.length > 0) {
+productData.monthlyTransactions.forEach(transaction => {
+transactionHtml += `<div class="transaction">
+<strong>${transaction.date}</strong> - ${transaction.type}: ${transaction.amount} adet
+</div>`;
+});
+} else {
+transactionHtml = "<p>Son 1 ayda işlem yapılmamış.</p>";
+}
+document.getElementById("detail-transactions").innerHTML = transactionHtml;
+}
 // Kasa sayfasına dön
 function backToCashier() {
-    document.getElementById("product-detail-page").style.display = "none";
-    document.getElementById("cashier-page").style.display = "block";
+document.getElementById("product-detail-page").style.display = "none";
+document.getElementById("cashier-page").style.display = "block";
 }
-
 // Çıkış Yapma
 function logout() {
-    alert("Çıkış yapılıyor...");
-    document.getElementById("login-page").style.display = "flex"; // flex yaptık ki ortada dursun
-    document.getElementById("main-page").style.display = "none";
-    document.getElementById("cashier-page").style.display = "none";
-    document.getElementById("product-detail-page").style.display = "none";
-    
-    // Arka plan resimlerini göster - giriş sayfasına döndük
-    document.getElementById("backgroundImages").style.display = "grid";
+alert("Çıkış yapılıyor...");
+document.getElementById("login-page").style.display = "flex"; // flex yaptık ki ortada dursun
+document.getElementById("main-page").style.display = "none";
+document.getElementById("cashier-page").style.display = "none";
+document.getElementById("product-detail-page").style.display = "none";
+// Arka plan resimlerini göster - giriş sayfasına döndük
+document.getElementById("backgroundImages").style.display = "grid";
 }
-
 // Ana sayfaya dönme
 function goBack() {
-    document.getElementById("cashier-page").style.display = "none";
-    document.getElementById("product-detail-page").style.display = "none";
-    document.getElementById("main-page").style.display = "block";
+document.getElementById("cashier-page").style.display = "none";
+document.getElementById("product-detail-page").style.display = "none";
+document.getElementById("main-page").style.display = "block";
 }
-
-
 // Barkod tarama ve stok güncelleme işlevleri
 let barcodeInput = document.createElement('div');
 barcodeInput.className = 'barcode-section';
 barcodeInput.innerHTML = `
-    <div style="margin-top: 20px; background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-        <h3>Barkod Okutma</h3>
-        <div style="display: flex; margin-bottom: 15px;">
-            <input type="text" id="barcodeInput" placeholder="Barkod okutun veya girin..." style="flex: 1; padding: 10px; margin-right: 10px; border-radius: 5px; border: 1px solid #ccc;">
-            <button onclick="processBarcodeInput()" style="background-color: #007BFF; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Oku</button>
-        </div>
-        <div style="display: flex; justify-content: space-around;">
-            <button onclick="processTransaction('sale')" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; flex: 1; margin-right: 10px;">Satış Yap</button>
-            <button onclick="processTransaction('return')" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; flex: 1;">İade Al</button>
-        </div>
-        <div id="scanResult" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
-    </div>
+<div style="margin-top: 20px; background-color: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+<h3>Barkod Okutma</h3>
+<div style="display: flex; margin-bottom: 15px;">
+<input type="text" id="barcodeInput" placeholder="Barkod okutun veya girin..." style="flex: 1; padding: 10px; margin-right: 10px; border-radius: 5px; border: 1px solid #ccc;">
+<button onclick="processBarcodeInput()" style="background-color: #007BFF; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer;">Oku</button>
+</div>
+<div style="display: flex; justify-content: space-around;">
+<button onclick="processTransaction('sale')" style="background-color: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; flex: 1; margin-right: 10px;">Satış Yap</button>
+<button onclick="processTransaction('return')" style="background-color: #dc3545; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; flex: 1;">İade Al</button>
+</div>
+<div id="scanResult" style="margin-top: 15px; padding: 10px; border-radius: 5px; display: none;"></div>
+</div>
 `;
-
 // Düşük stok ürünlerini kontrol eden fonksiyon
 function checkLowStock() {
-    const lowStockItems = [];
-    
-    // Tüm ürünleri kontrol et
-    for (const category in categoryProducts) {
-        categoryProducts[category].forEach(product => {
-            if (productDetails[product] && productDetails[product].stock <= 10) {
-                lowStockItems.push({
-                    name: product,
-                    stock: productDetails[product].stock,
-                    category: category
-                });
-            }
-        });
-    }
-    
-    // Düşük stoklu ürünler varsa uyarı göster
-    if (lowStockItems.length > 0) {
-        let message = "DİKKAT! Aşağıdaki ürünlerde düşük stok tespit edildi:\n\n";
-        
-        lowStockItems.forEach(item => {
-            message += `• ${item.name} (${item.category}): ${item.stock} adet kaldı\n`;
-        });
-        
-        alert(message);
-    }
+const lowStockItems = [];
+// Tüm ürünleri kontrol et
+for (const category in categoryProducts) {
+categoryProducts[category].forEach(product => {
+if (productDetails[product] && productDetails[product].stock <= 10) {
+lowStockItems.push({
+name: product,
+stock: productDetails[product].stock,
+category: category
+});
 }
-
+});
+}
+// Düşük stoklu ürünler varsa uyarı göster
+if (lowStockItems.length > 0) {
+let message = "DİKKAT! Aşağıdaki ürünlerde düşük stok tespit edildi:\n\n";
+lowStockItems.forEach(item => {
+message += `• ${item.name} (${item.category}): ${item.stock} adet kaldı\n`;
+});
+alert(message);
+}
+}
 // Barkod okuma işlevini değiştir
 function processBarcodeInput() {
-    const barcodeValue = document.getElementById('barcodeInput').value.trim();
-    const resultDiv = document.getElementById('scanResult');
-    
-    if (!barcodeValue) {
-        resultDiv.style.display = 'block';
-        resultDiv.style.backgroundColor = '#ffcccc';
-        resultDiv.textContent = 'Lütfen bir barkod girin veya okutun!';
-        return;
-    }
-    
-    // Önce tam eşleşme ara
-    let foundProduct = null;
-    let productCategory = null;
-    
-    // Tam eşleşme
-    for (const category in categoryProducts) {
-        const foundIndex = categoryProducts[category].findIndex(product => 
-            product.toLowerCase().replace(/\s+/g, '') === barcodeValue.toLowerCase().replace(/\s+/g, '')
-        );
-        
-        if (foundIndex !== -1) {
-            foundProduct = categoryProducts[category][foundIndex];
-            productCategory = category;
-            break;
-        }
-    }
-    
-    // Tam eşleşme bulamazsa, kısmi eşleşme ara
-    if (!foundProduct) {
-        for (const category in categoryProducts) {
-            const foundIndex = categoryProducts[category].findIndex(product => 
-                barcodeValue.toLowerCase().includes(product.toLowerCase().replace(/\s+/g, '')) ||
-                product.toLowerCase().replace(/\s+/g, '').includes(barcodeValue.toLowerCase())
-            );
-            
-            if (foundIndex !== -1) {
-                foundProduct = categoryProducts[category][foundIndex];
-                productCategory = category;
-                break;
-            }
-        }
-    }
-    
-    if (foundProduct) {
-        resultDiv.style.display = 'block';
-        resultDiv.style.backgroundColor = '#d4edda';
-        resultDiv.innerHTML = `
-            <p><strong>Ürün Bulundu:</strong> ${foundProduct}</p>
-            <p><strong>Kategori:</strong> ${productCategory}</p>
-            <p><strong>Mevcut Stok:</strong> ${productDetails[foundProduct].stock}</p>
-        `;
-        
-        // Aktif ürünü global değişkende sakla
-        window.activeProduct = foundProduct;
-        
-        // Güncel kategori değilse, kategoriyi de değiştir
-        if (currentCategory !== productCategory) {
-            currentCategory = productCategory;
-            document.getElementById("current-category").textContent = productCategory;
-            
-            // Kategori ürünlerini listele
-            let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
-            
-            categoryProducts[productCategory].forEach(product => {
-                productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
-            });
-            
-            // Barkod bölümünün altında ürün listesini güncelle
-            const productInfoElement = document.getElementById("product-info");
-            productInfoElement.innerHTML = productHtml;
-        }
-    } else {
-        resultDiv.style.display = 'block';
-        resultDiv.style.backgroundColor = '#ffcccc';
-        resultDiv.textContent = 'Bu barkoda ait ürün bulunamadı!';
-        window.activeProduct = null;
-    }
+const barcodeValue = document.getElementById('barcodeInput').value.trim();
+const resultDiv = document.getElementById('scanResult');
+if (!barcodeValue) {
+resultDiv.style.display = 'block';
+resultDiv.style.backgroundColor = '#ffcccc';
+resultDiv.textContent = 'Lütfen bir barkod girin veya okutun!';
+return;
 }
-
+// Önce tam eşleşme ara
+let foundProduct = null;
+let productCategory = null;
+// Tam eşleşme
+for (const category in categoryProducts) {
+const foundIndex = categoryProducts[category].findIndex(product => 
+product.toLowerCase().replace(/\s+/g, '') === barcodeValue.toLowerCase().replace(/\s+/g, '')
+);
+if (foundIndex !== -1) {
+foundProduct = categoryProducts[category][foundIndex];
+productCategory = category;
+break;
+}
+}
+// Tam eşleşme bulamazsa, kısmi eşleşme ara
+if (!foundProduct) {
+for (const category in categoryProducts) {
+const foundIndex = categoryProducts[category].findIndex(product => 
+barcodeValue.toLowerCase().includes(product.toLowerCase().replace(/\s+/g, '')) ||
+product.toLowerCase().replace(/\s+/g, '').includes(barcodeValue.toLowerCase())
+);
+if (foundIndex !== -1) {
+foundProduct = categoryProducts[category][foundIndex];
+productCategory = category;
+break;
+}
+}
+}
+if (foundProduct) {
+resultDiv.style.display = 'block';
+resultDiv.style.backgroundColor = '#d4edda';
+resultDiv.innerHTML = `
+<p><strong>Ürün Bulundu:</strong> ${foundProduct}</p>
+<p><strong>Kategori:</strong> ${productCategory}</p>
+<p><strong>Mevcut Stok:</strong> ${productDetails[foundProduct].stock}</p>
+`;
+// Aktif ürünü global değişkende sakla
+window.activeProduct = foundProduct;
+// Güncel kategori değilse, kategoriyi de değiştir
+if (currentCategory !== productCategory) {
+currentCategory = productCategory;
+document.getElementById("current-category").textContent = productCategory;
+// Kategori ürünlerini listele
+let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
+categoryProducts[productCategory].forEach(product => {
+productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+});
+// Barkod bölümünün altında ürün listesini güncelle
+const productInfoElement = document.getElementById("product-info");
+productInfoElement.innerHTML = productHtml;
+}
+} else {
+resultDiv.style.display = 'block';
+resultDiv.style.backgroundColor = '#ffcccc';
+resultDiv.textContent = 'Bu barkoda ait ürün bulunamadı!';
+window.activeProduct = null;
+}
+}
 // Satış veya iade işlemini gerçekleştir
 function processTransaction(type) {
-    if (!window.activeProduct) {
-        alert('Lütfen önce bir ürün barkodu okutun!');
-        return;
-    }
-    
-    const product = window.activeProduct;
-    const resultDiv = document.getElementById('scanResult');
-    
-    if (type === 'sale') {
-        // Satış işlemi - stok azalt
-        if (productDetails[product].stock > 0) {
-            productDetails[product].stock--;
-            
-            // Yeni satış kaydı ekle
-            const today = new Date();
-            const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
-            
-            productDetails[product].totalSales++;
-            productDetails[product].monthlyTransactions.push({
-                date: formattedDate,
-                type: "Satış",
-                amount: 1
-            });
-            
-            resultDiv.style.backgroundColor = '#d4edda';
-            resultDiv.innerHTML = `
-                <p><strong>Satış Başarılı:</strong> ${product}</p>
-                <p><strong>Yeni Stok:</strong> ${productDetails[product].stock}</p>
-            `;
-            
-            // Düşük stok kontrolü
-            if (productDetails[product].stock <= 10) {
-                resultDiv.innerHTML += `
-                    <p style="color: red; font-weight: bold;">DİKKAT: Bu üründe düşük stok! (${productDetails[product].stock} adet kaldı)</p>
-                `;
-            }
-        } else {
-            resultDiv.style.backgroundColor = '#ffcccc';
-            resultDiv.innerHTML = `
-                <p><strong>Hata:</strong> ${product} için stok yetersiz!</p>
-            `;
-        }
-    } else if (type === 'return') {
-        // İade işlemi - stok artır
-        productDetails[product].stock++;
-        productDetails[product].totalReturns++;
-        
-        // Yeni iade kaydı ekle
-        const today = new Date();
-        const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
-        
-        productDetails[product].monthlyTransactions.push({
-            date: formattedDate,
-            type: "İade",
-            amount: 1
-        });
-        
-        resultDiv.style.backgroundColor = '#d4edda';
-        resultDiv.innerHTML = `
-            <p><strong>İade Başarılı:</strong> ${product}</p>
-            <p><strong>Yeni Stok:</strong> ${productDetails[product].stock}</p>
-        `;
-    }
-    
-    // İşlem sonrası son güncelleme tarihini güncelle
-    const today = new Date();
-    const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
-    productDetails[product].lastUpdate = formattedDate;
-    
-    // Aktif ürünü temizle
-    window.activeProduct = null;
-    
-    // Eğer ürün detay sayfası açıksa, güncelle
-    if (document.getElementById("product-detail-page").style.display === "block" &&
-        document.getElementById("detail-product-title").textContent === product) {
-        openProductDetail(product);
-    }
+if (!window.activeProduct) {
+alert('Lütfen önce bir ürün barkodu okutun!');
+return;
 }
-
+const product = window.activeProduct;
+const resultDiv = document.getElementById('scanResult');
+if (type === 'sale') {
+// Satış işlemi - stok azalt
+if (productDetails[product].stock > 0) {
+productDetails[product].stock--;
+// Yeni satış kaydı ekle
+const today = new Date();
+const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+productDetails[product].totalSales++;
+productDetails[product].monthlyTransactions.push({
+date: formattedDate,
+type: "Satış",
+amount: 1
+});
+resultDiv.style.backgroundColor = '#d4edda';
+resultDiv.innerHTML = `
+<p><strong>Satış Başarılı:</strong> ${product}</p>
+<p><strong>Yeni Stok:</strong> ${productDetails[product].stock}</p>
+`;
+// Düşük stok kontrolü
+if (productDetails[product].stock <= 10) {
+resultDiv.innerHTML += `
+<p style="color: red; font-weight: bold;">DİKKAT: Bu üründe düşük stok! (${productDetails[product].stock} adet kaldı)</p>
+`;
+}
+} else {
+resultDiv.style.backgroundColor = '#ffcccc';
+resultDiv.innerHTML = `
+<p><strong>Hata:</strong> ${product} için stok yetersiz!</p>
+`;
+}
+} else if (type === 'return') {
+// İade işlemi - stok artır
+productDetails[product].stock++;
+productDetails[product].totalReturns++;
+// Yeni iade kaydı ekle
+const today = new Date();
+const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+productDetails[product].monthlyTransactions.push({
+date: formattedDate,
+type: "İade",
+amount: 1
+});
+resultDiv.style.backgroundColor = '#d4edda';
+resultDiv.innerHTML = `
+<p><strong>İade Başarılı:</strong> ${product}</p>
+<p><strong>Yeni Stok:</strong> ${productDetails[product].stock}</p>
+`;
+}
+// İşlem sonrası son güncelleme tarihini güncelle
+const today = new Date();
+const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+productDetails[product].lastUpdate = formattedDate;
+// Aktif ürünü temizle
+window.activeProduct = null;
+// Eğer ürün detay sayfası açıksa, güncelle
+if (document.getElementById("product-detail-page").style.display === "block" &&
+document.getElementById("detail-product-title").textContent === product) {
+openProductDetail(product);
+}
+}
 // Giriş yapma fonksiyonunu düzenle - düşük stok kontrolü ekle
 function login() {
-    // Giriş bilgileri boş olsa da, doğrudan geçiş yapılacak
-    document.getElementById("login-page").style.display = "none";
-    document.getElementById("main-page").style.display = "block";
-    
-    // Arka plan resimlerini gizle - sadece giriş sayfasında gösterilecek
-    document.getElementById("backgroundImages").style.display = "none";
-    
-    // Düşük stok kontrolü yap
-    checkLowStock();
+// Giriş bilgileri boş olsa da, doğrudan geçiş yapılacak
+document.getElementById("login-page").style.display = "none";
+document.getElementById("main-page").style.display = "block";
+// Arka plan resimlerini gizle - sadece giriş sayfasında gösterilecek
+document.getElementById("backgroundImages").style.display = "none";
+// Düşük stok kontrolü yap
+checkLowStock();
 }
-
 // Kasa sayfasına yönlendirmeyi düzenle - barkod okuma bölümünü ekle
 function openCashierPage(category) {
-    currentCategory = category;
-    document.getElementById("main-page").style.display = "none";
-    document.getElementById("cashier-page").style.display = "block";
-    document.getElementById("current-category").textContent = category;
-    
-    // Arama kutusunu temizle
-    document.getElementById("searchInput").value = "";
-    
-    // Kategori ürünlerini listele
-    let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
-    
-    categoryProducts[category].forEach(product => {
-        productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
-    });
-    
-    document.getElementById("product-info").innerHTML = productHtml;
-    
-    // Barkod okuma bölümünü ekle
-    if (!document.querySelector('.barcode-section')) {
-        document.getElementById("product-info").parentNode.insertBefore(barcodeInput, document.getElementById("product-info"));
-    }
+currentCategory = category;
+document.getElementById("main-page").style.display = "none";
+document.getElementById("cashier-page").style.display = "block";
+document.getElementById("current-category").textContent = category;
+// Arama kutusunu temizle
+document.getElementById("searchInput").value = "";
+// Kategori ürünlerini listele
+let productHtml = "<div style='margin-bottom: 20px;'><strong>Bu Kategorideki Ürünler:</strong></div>";
+categoryProducts[category].forEach(product => {
+productHtml += `<div class="transaction" style="cursor:pointer;" onclick="openProductDetail('${product}')">${product}</div>`;
+});
+document.getElementById("product-info").innerHTML = productHtml;
+// Barkod okuma bölümünü ekle
+if (!document.querySelector('.barcode-section')) {
+document.getElementById("product-info").parentNode.insertBefore(barcodeInput, document.getElementById("product-info"));
 }
-
-
-
+}
 </script>
-        
+
+<!-- CHATBOT BAŞLANGICI -->
+<div id="chat-container" style="position: fixed; bottom: 30px; right: 30px; width: 380px; background: #fff; padding: 18px 12px 12px 12px; box-shadow: 0 0 16px rgba(0,0,0,0.20); border-radius: 12px; z-index: 9999; border: 1px solid #e0e0e0;">
+  <div id="messages" style="height: 260px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #f8f8f8; border-radius: 8px; font-size: 15px;"></div>
+  <div id="input-area" style="display: flex; gap: 4px;">
+    <input type="text" id="user-input" placeholder="Mesajınızı yazın..." autocomplete="off" style="flex:1; padding: 7px; border-radius: 5px; border: 1px solid #bbb; font-size: 15px;">
+    <button id="send-button" style="padding: 7px 16px; border-radius: 5px; border: none; background: #2ba346; color: white; font-weight: bold; cursor: pointer; font-size: 15px;">Gönder</button>
+  </div>
+</div>
+<!-- CHATBOT SONU -->
+
+<script>
+  // Chatbot scripti
+  const messagesDiv = document.getElementById("messages");
+  const userInput = document.getElementById("user-input");
+  const sendButton = document.getElementById("send-button");
+
+  function botReply(input) {
+      input = input.toLowerCase();
+      if (input.includes("merhaba")) return "Merhaba! Size nasıl yardımcı olabilirim?";
+      if (input.includes("adın ne")) return "Ben basit bir chatbotum :)";
+      if (input.includes("nasılsın")) return "İyiyim, teşekkür ederim. Sen nasılsın?";
+      return "Bunu anlayamadım. Lütfen başka bir şey sor.";
+  }
+
+  function sendMessage() {
+      const userText = userInput.value.trim();
+      if (!userText) return;
+
+      messagesDiv.innerHTML += `<div class="user" style="text-align: right; color: #0d6efd; margin: 4px 0;">Sen: ${userText}</div>`;
+
+      const reply = botReply(userText);
+      messagesDiv.innerHTML += `<div class="bot" style="text-align: left; color: #2ba346; margin: 4px 0;">Bot: ${reply}</div>`;
+
+      userInput.value = "";
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  sendButton.addEventListener("click", sendMessage);
+  userInput.addEventListener("keypress", function(e) {
+      if (e.key === "Enter") sendMessage();
+  });
+</script>
