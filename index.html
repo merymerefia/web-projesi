@@ -1190,46 +1190,110 @@ document.getElementById("product-info").parentNode.insertBefore(barcodeInput, do
 }
 }
 </script>
+<!-- Chatbot Başlangıç -->
+<style>
+  #chatbot-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ffb3ab;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    z-index: 9999;
+  }
 
-<!-- CHATBOT BAŞLANGICI -->
-<div id="chat-container" style="position: fixed; bottom: 30px; right: 30px; width: 380px; background: #fff; padding: 18px 12px 12px 12px; box-shadow: 0 0 16px rgba(0,0,0,0.20); border-radius: 12px; z-index: 9999; border: 1px solid #e0e0e0;">
-  <div id="messages" style="height: 260px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; background: #f8f8f8; border-radius: 8px; font-size: 15px;"></div>
-  <div id="input-area" style="display: flex; gap: 4px;">
-    <input type="text" id="user-input" placeholder="Mesajınızı yazın..." autocomplete="off" style="flex:1; padding: 7px; border-radius: 5px; border: 1px solid #bbb; font-size: 15px;">
-    <button id="send-button" style="padding: 7px 16px; border-radius: 5px; border: none; background: #2ba346; color: white; font-weight: bold; cursor: pointer; font-size: 15px;">Gönder</button>
+  #chatbot-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 300px;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 10px;
+    font-family: sans-serif;
+    display: none;
+    z-index: 9999;
+  }
+
+  #chatbot-header {
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #333;
+  }
+
+  #chatbot-messages {
+    height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+
+  #chatbot-input {
+    width: 70%;
+    padding: 5px;
+    font-size: 14px;
+  }
+
+  #chatbot-send-btn {
+    width: 25%;
+    padding: 5px;
+    font-size: 14px;
+    margin-left: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+</style>
+
+<button id="chatbot-toggle">💬 Yardım</button>
+
+<div id="chatbot-container">
+  <div id="chatbot-header">Asistan</div>
+  <div id="chatbot-messages"></div>
+  <div style="display: flex;">
+    <input type="text" id="chatbot-input" placeholder="Sorunuzu yazın..." />
+    <button id="chatbot-send-btn" onclick="sendChat()">Gönder</button>
   </div>
 </div>
-<!-- CHATBOT SONU -->
 
 <script>
-  // Chatbot scripti
-  const messagesDiv = document.getElementById("messages");
-  const userInput = document.getElementById("user-input");
-  const sendButton = document.getElementById("send-button");
+  const chatbotResponses = {
+    "merhaba": "Merhaba! Size nasıl yardımcı olabilirim?",
+    "ürün ekle": "Ürün eklemek için yönetici paneline giriş yapmalısınız.",
+    "stok durumu": "Stok durumu otomatik olarak kasa işlemlerine göre güncellenmektedir.",
+    "giriş yapamıyorum": "Giriş kodunu doğru girdiğinizden emin olun. Sorun devam ederse yöneticinizle iletişime geçin.",
+    "teşekkürler": "Rica ederim, her zaman buradayım 😊",
+  };
 
-  function botReply(input) {
-      input = input.toLowerCase();
-      if (input.includes("merhaba")) return "Merhaba! Size nasıl yardımcı olabilirim?";
-      if (input.includes("adın ne")) return "Ben basit bir chatbotum :)";
-      if (input.includes("nasılsın")) return "İyiyim, teşekkür ederim. Sen nasılsın?";
-      return "Bunu anlayamadım. Lütfen başka bir şey sor.";
-  }
-
-  function sendMessage() {
-      const userText = userInput.value.trim();
-      if (!userText) return;
-
-      messagesDiv.innerHTML += `<div class="user" style="text-align: right; color: #0d6efd; margin: 4px 0;">Sen: ${userText}</div>`;
-
-      const reply = botReply(userText);
-      messagesDiv.innerHTML += `<div class="bot" style="text-align: left; color: #2ba346; margin: 4px 0;">Bot: ${reply}</div>`;
-
-      userInput.value = "";
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-  }
-
-  sendButton.addEventListener("click", sendMessage);
-  userInput.addEventListener("keypress", function(e) {
-      if (e.key === "Enter") sendMessage();
+  document.getElementById("chatbot-toggle").addEventListener("click", () => {
+    const c = document.getElementById("chatbot-container");
+    c.style.display = c.style.display === "none" ? "block" : "none";
   });
+
+  function sendChat() {
+    const input = document.getElementById("chatbot-input");
+    const messages = document.getElementById("chatbot-messages");
+    const userMessage = input.value.trim().toLowerCase();
+
+    if (!userMessage) return;
+
+    messages.innerHTML += `<div><b>Sen:</b> ${userMessage}</div>`;
+
+    const response = chatbotResponses[userMessage] || "Bu konuda yardımcı olamıyorum. Farklı bir şekilde sorabilir misiniz?";
+    messages.innerHTML += `<div><b>Bot:</b> ${response}</div>`;
+
+    input.value = "";
+    messages.scrollTop = messages.scrollHeight;
+  }
 </script>
+<!-- Chatbot Bitiş -->
